@@ -45,9 +45,9 @@ public class TargetSelector : MonoBehaviour
 
     public void CycleTarget()
     {
-        Debug.Log("CycleTarget called!"); // Debug to confirm it's being called
+        Debug.Log("CycleTarget called!"); 
         
-        availableTargets = targetDetector.FindPotentialTargets(); // This calls your detection
+        availableTargets = targetDetector.FindPotentialTargets(); 
         
         Debug.Log($"Available targets after detection: {availableTargets.Count}");
         
