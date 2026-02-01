@@ -38,13 +38,11 @@ public class SignUpUIManager : MonoBehaviour
             ShowError("Display name cannot be empty");
             return;
         }
-        // Input validation
         if (!email.Contains("@") || !email.Contains("."))
         {
             ShowError("Empty or invalid e-mail address");
             return;
         }
-        // TODO: More validations
         if (password.Length < 6)
         {
             ShowError("Password must be at least 6 characters long");
@@ -52,7 +50,7 @@ public class SignUpUIManager : MonoBehaviour
         }
         else
         {
-            ShowError(""); // Clear error
+            ShowError("");
         }
 
         FirebaseAuth
@@ -67,7 +65,16 @@ public class SignUpUIManager : MonoBehaviour
                     return;
                 }
 
-                FirebaseManager.Instance.SetDisplayName(displayName, ShowError, UIManager.Instance.ShowLogin);
+                FirebaseManager.Instance.CreatePlayer(
+                    displayName,
+                    email,
+                    onError: ShowError,
+                    onSuccess: () =>
+                    {
+                        Debug.Log("Player created in database!");
+                        UIManager.Instance.ShowLogin();
+                    }
+                );
             });
     }
     private void ShowError(string error)

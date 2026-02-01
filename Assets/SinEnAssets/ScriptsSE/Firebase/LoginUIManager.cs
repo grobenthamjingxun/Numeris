@@ -46,7 +46,7 @@ public class LoginUIManager : MonoBehaviour
         {
             ShowError(""); // Clear error
         }
-         
+
         // Authenticate with Firebase
         FirebaseAuth
             .DefaultInstance
@@ -65,8 +65,21 @@ public class LoginUIManager : MonoBehaviour
                 }
                 if (task.IsCompleted)
                 {
-                    ShowError(""); // Clear error
-                    UIManager.Instance.ShowGame();
+                    ShowError("");
+
+                    FirebaseManager.Instance.LoadCompletePlayerData(
+                        onSuccess: (player) =>
+                        {
+                            PlayerManager.Instance.SetPlayerData(player);
+                            InvenManager.instance.LoadInventoryFromFirebase();
+                            UIManager.Instance.ShowGame();
+                        },
+                        onError: (error) =>
+                        {
+                            Debug.LogError("Failed to load player data: " + error);
+                            ShowError("Failed to load player data");
+                        }
+                    );
                 }
             });
     }
