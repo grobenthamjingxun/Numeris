@@ -268,6 +268,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8858051749441068820, guid: 4c67ed6c086451b4db54ac4d24b626bb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 365867951724573711}
+    - targetCorrespondingSourceObject: {fileID: 8858051749441068820, guid: 4c67ed6c086451b4db54ac4d24b626bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6445949413559655541}
+    - targetCorrespondingSourceObject: {fileID: 8858051749441068820, guid: 4c67ed6c086451b4db54ac4d24b626bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6269763145483781734}
     - targetCorrespondingSourceObject: {fileID: 6299699154981867490, guid: 4c67ed6c086451b4db54ac4d24b626bb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4517344051876396114}
@@ -343,9 +349,55 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 11c87a6e666fbe647b28cfec08fa4096, type: 2}
   - {fileID: 11400000, guid: 40411bc27ef33be41826faaafcb321ed, type: 2}
   - {fileID: 11400000, guid: ff45625471e3cd445a50b0dabdfa6f5e, type: 2}
-  dropForce: 5
   dropHeight: 1
   spreadRadius: 2
+--- !u!195 &6445949413559655541
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568683765431342259}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &6269763145483781734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568683765431342259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e0320c8e02b254c9bb6d0b3004b3f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PatrolChaseFSM
+  defaultChaseTarget: {fileID: 0}
+  patrolPoints: []
+  patrolWaitTime: 1.5
+  patrolSpeed: 2.5
+  chaseSpeed: 4.5
+  allowStopChaseIfFar: 1
+  loseDistance: 12
+  catchDistance: 1.2
+  stopAfterCatch: 1
+  navMeshSampleRadius: 2
+  agentWarpSearchRadius: 3
+  chaseRepathInterval: 0.15
+  currentState: 0
 --- !u!137 &2606171537478145579 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6422338445250207116, guid: 4c67ed6c086451b4db54ac4d24b626bb, type: 3}

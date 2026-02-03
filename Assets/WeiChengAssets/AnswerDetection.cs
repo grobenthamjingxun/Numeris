@@ -18,6 +18,10 @@ public class AnswerDetection : MonoBehaviour
     // ADDED: Public property to check if correct orb is attached
     public bool IsCorrectOrbAttached { get; private set; } = false;
 
+    // ADDED: Target-Specific Chase
+    [Header("Target-Specific Chase")]
+    [SerializeField] private TargetSelector targetSelector; // Reference to your target selector
+
     void Start()
     {
         socketInteractor = GetComponent<XRSocketInteractor>();
@@ -25,6 +29,20 @@ public class AnswerDetection : MonoBehaviour
         socketInteractor.selectExited.AddListener(OnSelectExited); // ADDED
         feedbackText.text = "";
         correctAnswerEffect.Stop();
+        
+        // ADDED: Try to auto-find target selector
+        if (targetSelector == null)
+        {
+            targetSelector = FindFirstObjectByType<TargetSelector>();
+            if (targetSelector != null)
+            {
+                Debug.Log($"Auto-found TargetSelector: {targetSelector.name}");
+            }
+            else
+            {
+                Debug.LogWarning("TargetSelector not found in scene. Targeted enemy chase will not work.");
+            }
+        }
     }
 
     private void OnSelectEntered(SelectEnterEventArgs args)
@@ -46,6 +64,9 @@ public class AnswerDetection : MonoBehaviour
             Debug.Log("Wrong answer selected.");
             feedbackText.text = "Wrong!";
             IsCorrectOrbAttached = false; // ADDED
+            
+            // ADDED: Make only the TARGETED enemy chase
+            TriggerTargetedEnemyChase();
         }
     }
     
@@ -54,6 +75,54 @@ public class AnswerDetection : MonoBehaviour
     {
         IsCorrectOrbAttached = false;
         feedbackText.text = "";
+    }
+
+    // ADDED: Only chase with currently targeted enemy
+    private void TriggerTargetedEnemyChase()
+    {
+        if (targetSelector == null)
+        {
+            Debug.LogError("TargetSelector not found! Enemy will not chase.");
+            return;
+        }
+        
+        GameObject currentTarget = targetSelector.CurrentTarget;
+        if (currentTarget == null)
+        {
+            Debug.LogWarning("No enemy currently targeted!");
+            return;
+        }
+        
+        PatrolChaseFSM chaser = currentTarget.GetComponent<PatrolChaseFSM>();
+        if (chaser != null)
+        {
+            Transform playerTransform = FindPlayerTransform();
+            if (playerTransform != null)
+            {
+                chaser.OnInteractionFailed(playerTransform);
+                Debug.Log($"Targeted enemy {currentTarget.name} is now chasing!");
+            }
+            else
+            {
+                Debug.LogError("Could not find player transform!");
+            }
+        }
+        else
+        {
+            Debug.LogError($"Targeted enemy {currentTarget.name} has no PatrolChaseFSM component!");
+        }
+    }
+    
+    // ADDED: Helper method to find player
+    private Transform FindPlayerTransform()
+    {
+        if (Camera.main != null)
+        {
+            return Camera.main.transform;
+        }
+        
+        Debug.LogError("Could not find player transform!");
+        return null;
     }
 
     private void OnDestroy()
