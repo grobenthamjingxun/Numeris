@@ -14,7 +14,6 @@ public class ProjectileBehaviour : MonoBehaviour
             Destroy(impact, 2f);
             EnemyBehaviour enemy = collision.gameObject.GetComponent<EnemyBehaviour>();
             enemy.TakeDamage(damage);
-            Debug.Log("Enemy Health: " + enemy.currentHealth);
             Destroy(gameObject);
         }
         else

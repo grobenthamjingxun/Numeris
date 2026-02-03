@@ -8,8 +8,18 @@ public class Staff : MonoBehaviour
     public Transform activationPoint;
     public Vector3 destination;
     
+    // ADDED: Reference to the AnswerDetection script
+    public AnswerDetection answerDetection;
+    
     public void ShootProjectile()
     {
+        // ADDED: Check if correct orb is attached
+        if (answerDetection == null || !answerDetection.IsCorrectOrbAttached)
+        {
+            Debug.Log("Cannot shoot - no correct orb attached!");
+            return;
+        }
+        
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
@@ -23,6 +33,7 @@ public class Staff : MonoBehaviour
         }
         InstantiateProjectile();
     }
+    
     void InstantiateProjectile()
     {
         GameObject proj = Instantiate(projectile, activationPoint.position, Quaternion.identity);

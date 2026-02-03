@@ -7,6 +7,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using System; // ADDED
 
 public class TargetSelector : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class TargetSelector : MonoBehaviour
     public GameObject CurrentTarget { get; private set; }
     private List<GameObject> availableTargets = new List<GameObject>();
     private int currentTargetIndex = -1;
+
+    // ADDED: Event for when target is cleared
+    public event Action OnTargetCleared;
+    public event Action<GameObject> OnTargetLocked;
 
     private void Awake()
     {
@@ -63,6 +68,8 @@ public class TargetSelector : MonoBehaviour
             ClearTarget();
         }
 
+        GameObject previousTarget = CurrentTarget; // ADDED: Store previous target
+
         if (CurrentTarget == null)
         {
             // If no current target, select the one closest to the camera center
@@ -70,6 +77,9 @@ public class TargetSelector : MonoBehaviour
             if (CurrentTarget != null)
             {
                 currentTargetIndex = availableTargets.IndexOf(CurrentTarget);
+                
+                // ADDED: Trigger OnTargetLocked event
+                OnTargetLocked?.Invoke(CurrentTarget);
             }
         }
         else
@@ -77,6 +87,9 @@ public class TargetSelector : MonoBehaviour
             // Cycle to the next target
             currentTargetIndex = (currentTargetIndex + 1) % availableTargets.Count;
             CurrentTarget = availableTargets[currentTargetIndex];
+            
+            // ADDED: Trigger OnTargetLocked event (even when cycling between targets)
+            OnTargetLocked?.Invoke(CurrentTarget);
         }
 
         Debug.Log($"Locked on to: {CurrentTarget?.name}");
@@ -116,6 +129,10 @@ public class TargetSelector : MonoBehaviour
     {
         CurrentTarget = null;
         currentTargetIndex = -1;
+        
+        // ADDED: Trigger the event
+        OnTargetCleared?.Invoke();
+        
         Debug.Log("Target cleared.");
     }
 }
