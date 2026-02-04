@@ -8,11 +8,13 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using TMPro;
+using System.Collections;
 
 public class AnswerDetection : MonoBehaviour
 {
     [SerializeField] private TMP_Text feedbackText;
     [SerializeField] private ParticleSystem correctAnswerEffect;
+    [SerializeField] private TMP_Text questionText;
     private XRSocketInteractor socketInteractor;
     
     // ADDED: Public property to check if correct orb is attached
@@ -53,16 +55,26 @@ public class AnswerDetection : MonoBehaviour
         {
             Debug.Log("Correct answer selected!");
             feedbackText.text = "Correct!";
+            // text disappears after a short delay
+            StartCoroutine(HideText(2f));
             IsCorrectOrbAttached = true; // ADDED
             if (correctAnswerEffect != null)
             {
                 correctAnswerEffect.Play();
             }
+            GameObject[] wrongOrbs = GameObject.FindGameObjectsWithTag("WrongOrb");
+            foreach (GameObject orb in wrongOrbs)
+            {
+                orb.SetActive(false);
+            }
+            questionText.text = "";
         }
         else if (selectedObject.CompareTag("WrongOrb"))
         {
             Debug.Log("Wrong answer selected.");
             feedbackText.text = "Wrong!";
+            // text disappears after a short delay
+            StartCoroutine(HideText(2f));
             IsCorrectOrbAttached = false; // ADDED
             
             // ADDED: Make only the TARGETED enemy chase
@@ -116,6 +128,16 @@ public class AnswerDetection : MonoBehaviour
     // ADDED: Helper method to find player
     private Transform FindPlayerTransform()
     {
+        // Look for XR player name
+        name = "XR Origin (XR Rig)";
+        
+        GameObject player = GameObject.Find(name);
+        if (player != null)
+        {
+            return player.transform;
+        }
+        
+        // Fallback to camera
         if (Camera.main != null)
         {
             return Camera.main.transform;
@@ -123,6 +145,12 @@ public class AnswerDetection : MonoBehaviour
         
         Debug.LogError("Could not find player transform!");
         return null;
+    }
+
+    private IEnumerator HideText(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        feedbackText.text = "";
     }
 
     private void OnDestroy()
