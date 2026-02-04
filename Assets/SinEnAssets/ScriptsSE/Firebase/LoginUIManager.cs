@@ -48,9 +48,7 @@ public class LoginUIManager : MonoBehaviour
         }
 
         // Authenticate with Firebase
-        FirebaseAuth
-            .DefaultInstance
-            .SignInWithEmailAndPasswordAsync(email, password)
+        FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(email, password)
             .ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
