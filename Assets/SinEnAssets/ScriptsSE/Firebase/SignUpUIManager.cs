@@ -53,9 +53,7 @@ public class SignUpUIManager : MonoBehaviour
             ShowError("");
         }
 
-        FirebaseAuth
-            .DefaultInstance
-            .CreateUserWithEmailAndPasswordAsync(email, password)
+        FirebaseAuth.DefaultInstance.CreateUserWithEmailAndPasswordAsync(email, password)
             .ContinueWithOnMainThread(task =>
             {
                 if (task.IsCanceled || task.IsFaulted)

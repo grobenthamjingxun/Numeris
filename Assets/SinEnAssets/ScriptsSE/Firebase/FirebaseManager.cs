@@ -1,5 +1,3 @@
-using UnityEngine;
-using System;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
@@ -119,7 +117,6 @@ public class FirebaseManager : MonoBehaviour
             onError("User not authenticated");
             return;
         }
-
         string json = JsonUtility.ToJson(player);
         string userId = CurrentUserId();
 
@@ -202,14 +199,8 @@ public class FirebaseManager : MonoBehaviour
             return;
         }
 
-        FirebaseDatabase
-            .DefaultInstance
-            .RootReference
-            .Child("players")
-            .Child(CurrentUserId())
-            .Child("displayName")
-            .SetValueAsync(displayName)
-            .ContinueWithOnMainThread(task =>
+        FirebaseDatabase.DefaultInstance.RootReference.Child("players").Child(CurrentUserId()).Child("displayName")
+            .SetValueAsync(displayName).ContinueWithOnMainThread(task =>
             {
                 if (task.IsCanceled || task.IsFaulted)
                 {
@@ -293,7 +284,6 @@ public class FirebaseManager : MonoBehaviour
                     onError(task.Exception?.ToString() ?? "Unknown error");
                     return;
                 }
-
                 if (task.IsCompleted)
                 {
                     DataSnapshot snapshot = task.Result;
@@ -308,6 +298,59 @@ public class FirebaseManager : MonoBehaviour
                     {
                         onError("Player data not found");
                     }
+                }
+            });
+    }
+
+    // Fetch all players from the database  
+    public void FetchAllPlayers(Action<Dictionary<string, Player>> onSuccess, Action<string> onError)
+    {
+        db.Child("players").GetValueAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCanceled || task.IsFaulted)
+                {
+                    if (task.Exception != null) Debug.LogError(task.Exception);
+                    onError(task.Exception?.ToString() ?? "Unknown error");
+                    return;
+                }
+                if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+                    Dictionary<string, Player> players = new Dictionary<string, Player>();
+
+                    if (!snapshot.Exists || !snapshot.HasChildren)
+                    {
+                        Debug.Log("No players found in database");
+                        onSuccess(players);
+                        return;
+                    }
+
+                    foreach (DataSnapshot childSnapshot in snapshot.Children)
+                    {
+                        try
+                        {
+                            string userId = childSnapshot.Key;
+                            string json = childSnapshot.GetRawJsonValue();
+                            Player player = JsonUtility.FromJson<Player>(json);
+
+                            if (player != null && !string.IsNullOrEmpty(player.username))
+                            {
+                                players.Add(userId, player);
+                            }
+                            else
+                            {
+                                Debug.LogWarning($"Invalid player data for userId: {userId}");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"Error parsing player data: {ex.Message}");
+                        }
+                    }
+
+                    Debug.Log($"Fetched {players.Count} players successfully!");
+                    onSuccess(players);
                 }
             });
     }

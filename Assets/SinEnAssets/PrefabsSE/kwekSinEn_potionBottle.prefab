@@ -255,15 +255,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8618564040471646973}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.002136528, y: 0.0006335129, z: -0.002427392, w: 0.9999946}
-  m_LocalPosition: {x: -0.00013548136, y: 0.05000058, z: -0.00011909008}
+  m_LocalRotation: {x: 0.006138156, y: 0.0006237943, z: -0.0024299074, w: 0.99997807}
+  m_LocalPosition: {x: -0.00013581173, y: 0.050002597, z: -0.0003855927}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8918519753688239101}
   - {fileID: 3359888276577030388}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0.245, y: 0.072, z: -0.278}
+  m_LocalEulerAnglesHint: {x: -180.704, y: 180.07, z: -180.278}
 --- !u!33 &2510837747201354152
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -355,7 +355,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LootItem
   pickupRadius: 1.5
-  autoPickup: 0
   rotateItem: 1
   rotationSpeed: 50
 --- !u!114 &2190881025797563426
