@@ -3,7 +3,6 @@ using System;
 using Firebase.Auth;
 using Firebase.Database;
 using Firebase.Extensions;
-using UnityEngine;
 
 public class FirebaseManager : MonoBehaviour
 {

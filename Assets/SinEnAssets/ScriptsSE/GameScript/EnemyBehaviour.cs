@@ -36,6 +36,14 @@ public class EnemyBehaviour : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        GameObject[] correctOrbs = GameObject.FindGameObjectsWithTag("CorrectOrb");
+        foreach (GameObject correctOrb in correctOrbs)
+        {
+            if (correctOrb != null)
+            {
+                correctOrb.SetActive(false);
+            }
+        }
     }
 
     IEnumerator DieWithDissolve()
