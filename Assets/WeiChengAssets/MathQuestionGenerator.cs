@@ -30,8 +30,8 @@ public class MathQuestionGenerator : MonoBehaviour
     
     [Header("Scene Configuration")]
     [SerializeField] private string level1SceneName = "Level1";
-    [SerializeField] private string basicSceneName = "BasicScene_SELevel";
-    [SerializeField] private string weichengSceneName = "WeiChengScene";
+    [SerializeField] private string level2SceneName = "BasicScene_SELevel";
+    [SerializeField] private string level3SceneName = "WeiChengScene";
     
     [Header("Question Timing")]
     [SerializeField] private float questionSpawnDelay = 0.1f; // ADDED: Small delay for orb spawning
@@ -281,9 +281,9 @@ public class MathQuestionGenerator : MonoBehaviour
         
         if (sceneName == level1SceneName) 
             return GenerateArithmeticQuestion();
-        else if (sceneName == basicSceneName) 
+        else if (sceneName == level2SceneName) 
             return GenerateGeometryQuestion();
-        else if (sceneName == weichengSceneName) 
+        else if (sceneName == level3SceneName) 
             return GenerateFractionQuestion();
         else
         {

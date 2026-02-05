@@ -44,6 +44,9 @@ public class PatrolChaseFSM : MonoBehaviour
 
     private bool hasCaughtTarget;
 
+    // ADDED: Player trigger detection
+    private bool isInPlayerTrigger = false;
+
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -55,6 +58,41 @@ public class PatrolChaseFSM : MonoBehaviour
 
         EnsureOnNavMesh();
         ForceState(State.Patrol);
+    }
+
+    // ADDED: Trigger enter/exit for player detection
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log($"{name} entered Player trigger zone");
+            isInPlayerTrigger = true;
+            
+            // If we're chasing and enter player trigger, catch the player
+            if (currentState == State.Chase && !hasCaughtTarget && chaseTarget != null)
+            {
+                hasCaughtTarget = true;
+                agent.isStopped = true;
+                // completely stop the chaser from moving; no sliding forward
+                agent.velocity = Vector3.zero;
+                agent.ResetPath();
+                
+                OnCatchTarget(chaseTarget);
+                
+                if (stopAfterCatch)
+                {
+                    ChangeState(State.Patrol);
+                }
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isInPlayerTrigger = false;
+        }
     }
 
     // =========================
@@ -206,7 +244,6 @@ public class PatrolChaseFSM : MonoBehaviour
         agent.isStopped = false;
 
         float repathTimer = 0f;
-        float catchSqr = catchDistance * catchDistance;
 
         while (currentState == State.Chase)
         {
@@ -216,32 +253,23 @@ public class PatrolChaseFSM : MonoBehaviour
                 yield break;
             }
 
-            // Flat distance
-            Vector3 a = transform.position; a.y = 0f;
-            Vector3 b = chaseTarget.position; b.y = 0f;
-
-            float distSqr = (b - a).sqrMagnitude;
-
-            // ---- CATCH ----
-            if (!hasCaughtTarget && distSqr <= catchSqr)
-            {
-                hasCaughtTarget = true;
-
-                agent.isStopped = true;
-                agent.ResetPath();
-
-                OnCatchTarget(chaseTarget);
-
-                if (stopAfterCatch)
-                    yield break;
-            }
-
+            // ---- CATCH VIA TRIGGER ----
+            // Moved to OnTriggerEnter for better physics-based detection
+            
             // ---- OPTIONAL: STOP CHASE IF FAR ----
-            if (allowStopChaseIfFar && distSqr > loseSqr)
+            if (allowStopChaseIfFar)
             {
-                chaseTarget = null;
-                ChangeState(State.Patrol);
-                yield break;
+                // Flat distance
+                Vector3 a = transform.position; a.y = 0f;
+                Vector3 b = chaseTarget.position; b.y = 0f;
+                float distSqr = (b - a).sqrMagnitude;
+                
+                if (distSqr > loseSqr)
+                {
+                    chaseTarget = null;
+                    ChangeState(State.Patrol);
+                    yield break;
+                }
             }
 
             // ---- REPATH ----
