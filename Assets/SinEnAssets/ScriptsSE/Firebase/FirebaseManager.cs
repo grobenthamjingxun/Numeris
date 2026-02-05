@@ -357,4 +357,18 @@ public class FirebaseManager : MonoBehaviour
                 }
             });
     }
+    public void SetUserOffline()
+    {
+        if (IsAuthenticated())
+        {
+            db.Child("players").Child(CurrentUserId()).Child("isLoggedIn").SetValueAsync(false);
+        }
+        Debug.Log("Close application");
+        Application.Quit();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SetUserOffline();
+    }
 }
