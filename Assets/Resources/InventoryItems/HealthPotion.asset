@@ -19,3 +19,4 @@ MonoBehaviour:
   itemTier: 0
   dropChance: 80
   lootPrefab3D: {fileID: 8618564040471646973, guid: 5e30bbd5b13e3ac4191b8862a4169b47, type: 3}
+  powerUpType: 1

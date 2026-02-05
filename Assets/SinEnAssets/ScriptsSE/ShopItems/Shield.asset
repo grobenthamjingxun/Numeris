@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Shield
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
   shopItemId: 3
-  shopItemName: Shield
+  shopItemName: Fifty Fifty
   price: 30
-  shopItemIcon: {fileID: 21300000, guid: 941f0918ea61d544385b8b101d290948, type: 3}
+  shopItemIcon: {fileID: 21300000, guid: 7f3af7f6c26de804dae8e33c99d7115f, type: 3}
   itemType: 1
-  itemTier: 0
+  itemTier: 1
   correspondingInventoryItem: {fileID: 11400000, guid: 40411bc27ef33be41826faaafcb321ed, type: 2}

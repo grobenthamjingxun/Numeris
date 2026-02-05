@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SlowTime
   m_EditorClassIdentifier: Assembly-CSharp::ShopItem
   shopItemId: 2
-  shopItemName: Slow Time
-  price: 20
+  shopItemName: Switch Question
+  price: 50
   shopItemIcon: {fileID: 21300000, guid: 92f13e9486deabe488d9a76155de578f, type: 3}
   itemType: 1
-  itemTier: 0
+  itemTier: 2
   correspondingInventoryItem: {fileID: 11400000, guid: ff45625471e3cd445a50b0dabdfa6f5e, type: 2}

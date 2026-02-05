@@ -4,16 +4,6 @@ public class PowerUpManager : MonoBehaviour
 {
     public static PowerUpManager Instance;
 
-    [Header("Health Power-Up")]
-    public int healthPotions = 3;
-    public int healAmount = 25;
-
-    [Header("50:50 Power-Up")]
-    public int fiftyFiftyCount = 3;
-
-    [Header("Switch Question Power-Up")]
-    public int switchQuestionCount = 2;
-
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -25,18 +15,13 @@ public class PowerUpManager : MonoBehaviour
     // ----------------------
     public void UseHealth()
     {
-        if (healthPotions <= 0) return;
-
         PlayerHealth player = Object.FindFirstObjectByType<PlayerHealth>();
-        if (player == null) return;
-
-        player.TryHeal(healAmount); // unlimited health system
-        healthPotions--;
-    }
-
-    public void AddHealthPotion(int amount = 1)
-    {
-        healthPotions += amount;
+        if (player == null)
+        {
+            Debug.LogWarning("PlayerHealth not found!");
+            return;
+        }
+        player.TryHeal(25); // or use a configurable healAmount
     }
 
     // ----------------------
@@ -44,44 +29,41 @@ public class PowerUpManager : MonoBehaviour
     // ----------------------
     public void UseFiftyFifty()
     {
-        if (fiftyFiftyCount <= 0) return;
-
         FiftyFiftyPowerUp fifty = Object.FindFirstObjectByType<FiftyFiftyPowerUp>();
         if (fifty == null)
         {
             Debug.LogWarning("[PowerUpManager] FiftyFiftyPowerUp not found in scene.");
             return;
         }
-
         fifty.Activate();
-        fiftyFiftyCount--;
-    }
-
-    public void AddFiftyFifty(int amount = 1)
-    {
-        fiftyFiftyCount += amount;
     }
 
     // ----------------------
-    // SWITCH QUESTION (skip + enemy dies)
+    // SWITCH QUESTION
     // ----------------------
     public void UseSwitchQuestion()
     {
-        if (switchQuestionCount <= 0) return;
-
         SwitchQuestionPowerUp sw = Object.FindFirstObjectByType<SwitchQuestionPowerUp>();
         if (sw == null)
         {
             Debug.LogWarning("[PowerUpManager] SwitchQuestionPowerUp not found in scene.");
             return;
         }
-
         sw.Activate();
-        switchQuestionCount--;
     }
 
-    public void AddSwitchQuestion(int amount = 1)
+    public int GetPowerUpCount(PowerUpType type)
     {
-        switchQuestionCount += amount;
+        if (InvenManager.instance == null) return 0;
+
+        int count = 0;
+        foreach (var item in InvenManager.instance.invenItemList)
+        {
+            if (item.powerUpType == type)
+            {
+                count += item.invenQuantity;
+            }
+        }
+        return count;
     }
 }
