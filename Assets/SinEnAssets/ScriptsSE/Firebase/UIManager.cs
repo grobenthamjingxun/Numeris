@@ -5,8 +5,6 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
 
     [SerializeField]
-    private GameObject gameCanvas;
-    [SerializeField]
     private GameObject loginCanvas;
     [SerializeField]
     private GameObject signupCanvas;
@@ -39,7 +37,6 @@ public class UIManager : MonoBehaviour
 
     public void ShowGame()
     {
-        gameCanvas.SetActive(true);
         loginCanvas.SetActive(false);
         signupCanvas.SetActive(false);
         inventoryCanvas.SetActive(false);
@@ -49,7 +46,6 @@ public class UIManager : MonoBehaviour
     }
     public void ShowLogin()
     {
-        gameCanvas.SetActive(false);
         loginCanvas.SetActive(true);
         signupCanvas.SetActive(false);
         inventoryCanvas.SetActive(false);
