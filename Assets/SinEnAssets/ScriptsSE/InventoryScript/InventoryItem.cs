@@ -10,18 +10,11 @@ public class InventoryItem : ScriptableObject
     public ItemTier itemTier;
     public int dropChance;
     public GameObject lootPrefab3D;
-    public PowerUpType powerUpType;
 }
+
 public enum ItemTier
 {
     Common,
     Rare,
     Epic
-}
-public enum PowerUpType
-{
-    None,
-    HealthPotion,
-    FiftyFifty,
-    SwitchQuestion
 }

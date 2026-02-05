@@ -45,5 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InvenManager
   invenItemList: []
-  invenItemContent: {fileID: 7758717221920447252, guid: bd5545b52ffba4747be86006e3fde632, type: 3}
+  invenItemContent: {fileID: 0}
   invenItemPrefab: {fileID: 6332397751225160242, guid: 9fd95de84b3110247a76d6aa597aa9bf, type: 3}
