@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f4103d5a4e8404bacf665113c38928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LeaderboardManager
-  leaderboardContainer: {fileID: 0}
+  leaderboardContainer: {fileID: 5333539537057705537, guid: fee99e1b150f645478455e725a7a13cd, type: 3}
   leaderboardEntryPrefab: {fileID: 4697104482020049123, guid: 085e5a21b70ce6b46ab4a4f543cc6fa1, type: 3}
   displayCount: 10

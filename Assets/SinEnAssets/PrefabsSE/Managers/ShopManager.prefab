@@ -48,8 +48,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 25f50a2c86322e045be24929dd1f2b38, type: 2}
   - {fileID: 11400000, guid: e07b644a02162874abcbaa20815991fb, type: 2}
   - {fileID: 11400000, guid: 9df44acb8d6ffa34a8874299e1004d2d, type: 2}
-  shopItemContent: {fileID: 0}
-  shopItemPrefab: {fileID: 53446931900618206, guid: df0f2f52fa60c164195377c92cd5fd0f, type: 3}
-  playerCoinsText: {fileID: 0}
-  purchaseSuccessPanel: {fileID: 0}
-  notEnoughCoinsPanel: {fileID: 0}
+  shopItemContent: {fileID: 2054845824336201707, guid: 76a398f2db7749546b7b3ddd1e005a96, type: 3}
+  shopItemPrefab: {fileID: 53446931900618206, guid: c489098b036683c4d8d1e0b72f7f1e87, type: 3}
+  playerCoinsText: {fileID: 3139924825034816468, guid: 4c60e642febcb6a4b8746981ebeb7e31, type: 3}
+  purchaseSuccessPanel: {fileID: 7652308254515548334, guid: 3d26dbebf6274204c833bc14dca6a358, type: 3}
+  notEnoughCoinsPanel: {fileID: 63133156240114861, guid: 1921691e5ef77214881a63c117ddf12b, type: 3}
