@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
     public TMP_Text healthText;
     [SerializeField] private GameObject Player;
     [SerializeField] private GameObject Staff;
+    [SerializeField] private SceneChanger sceneChanger;
 
     void Start()
     {
@@ -21,9 +22,8 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth == 0)
         {
             Debug.Log("Player is dead!");
-            Player.transform.position = Vector3.zero; // Respawn at origin
+            sceneChanger.ChangeScene();
             currentHealth = 100; // Reset health
-            Staff.transform.position = new Vector3(0, 1, 0.3f); // Reset staff position
             UpdateUI();
         }
     }

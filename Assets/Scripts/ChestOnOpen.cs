@@ -3,9 +3,6 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class ChestonOpen : MonoBehaviour
 {
-    public Animator chestAnimator;
-    public string openTriggerName = "Open";
-
     public GameObject openVFX;
     public Transform vfxSpawnPoint;
 
@@ -30,10 +27,6 @@ public class ChestonOpen : MonoBehaviour
 
     private void OnItemInserted(SelectEnterEventArgs args)
     {
-        // Play animation
-        if (chestAnimator != null)
-            chestAnimator.SetTrigger(openTriggerName);
-
         // Spawn VFX
         if (openVFX != null && vfxSpawnPoint != null)
             Instantiate(openVFX, vfxSpawnPoint.position, vfxSpawnPoint.rotation);

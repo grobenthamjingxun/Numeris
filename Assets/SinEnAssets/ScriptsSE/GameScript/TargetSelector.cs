@@ -86,6 +86,14 @@ public class TargetSelector : MonoBehaviour
         {
             // Cycle to the next target
             currentTargetIndex = (currentTargetIndex + 1) % availableTargets.Count;
+            
+            if (availableTargets[currentTargetIndex] == CurrentTarget)
+            {
+                // Do nothing if we cycled back to the same target
+                Debug.Log("Cycled back to the same target, no change.");
+                return;
+            }
+
             CurrentTarget = availableTargets[currentTargetIndex];
             
             // ADDED: Trigger OnTargetLocked event (even when cycling between targets)
