@@ -33,6 +33,10 @@ public class PatrolChaseFSM : MonoBehaviour
     [Header("Chase Repath")]
     [SerializeField] private float chaseRepathInterval = 0.15f;
 
+    [Header("Player Damage")]
+    [SerializeField] private int damageOnCatch = 10; // Damage to deal when catching player
+    [SerializeField] private PlayerHealth playerHealth; // Reference to PlayerHealth script
+
     public enum State { Patrol, Chase }
     public State currentState;
 
@@ -133,10 +137,16 @@ public class PatrolChaseFSM : MonoBehaviour
     protected virtual void OnCatchTarget(Transform target)
     {
         Debug.Log($"{name} caught {target.name}");
-        // Example ideas:
-        // GameManager.Instance.OnPlayerCaught();
-        // target.GetComponent<PlayerHealth>()?.Die();
-        // StartCoroutine(Jumpscare());
+        // Apply damage to player
+        if (playerHealth != null)
+        {
+            playerHealth.TakeDamage(damageOnCatch);
+            Debug.Log($"Dealt {damageOnCatch} damage to player. Health: {playerHealth.currentHealth}");
+        }
+        else
+        {
+            Debug.LogWarning("PlayerHealth not found - cannot deal damage");
+        }
     }
 
     // =========================
