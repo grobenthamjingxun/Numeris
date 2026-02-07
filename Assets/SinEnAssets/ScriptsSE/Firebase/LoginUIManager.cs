@@ -65,6 +65,17 @@ public class LoginUIManager : MonoBehaviour
                 {
                     ShowError("");
 
+                    // Set user as logged in
+                    FirebaseManager.Instance.UpdatePlayerField("isLoggedIn", true,
+                        onSuccess: () =>
+                        {
+                            Debug.Log("User marked as logged in");
+                        },
+                        onError: (error) =>
+                        {
+                            Debug.LogError("Failed to update login status: " + error);
+                        }
+                    );
                     FirebaseManager.Instance.LoadCompletePlayerData(
                         onSuccess: (player) =>
                         {
