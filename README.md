@@ -1,7 +1,6 @@
 # 🎮 Numeris
 
 > An immersive VR fantasy game designed to teach mathematics through exploration, combat, and interactive problem-solving.
-![Lobby](Images/Lobby.jpeg)
 
 ---
 
@@ -26,6 +25,8 @@
 The game uses familiar mechanics such as selecting answers, charging weapons, and defeating enemies to minimise the learning curve. This allows students to focus on understanding mathematical concepts while enjoying gameplay.
 
 To support learners of varying skill levels, Numeris includes optional power-ups that can reduce difficulty while preserving the core educational challenge. These mechanics encourage critical thinking and active problem-solving.
+
+![Lobby](Images/Lobby.jpeg)
 
 ---
 
@@ -99,6 +100,8 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 | The Great Hall | Geometry, Mass, Volume |
 | The Spire | Fractions & Advanced Problems |
 
+![Mountains](Images/Mountains.jpeg)
+
 ---
 
 ### 🗺️ Levels
@@ -106,7 +109,7 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 - Checkpoints allow player progression
 - Enemy defeat thresholds encourage learning engagement
 - Hidden chests contain loot and power-ups
-![Mountains](Images/Mountains.jpeg)
+
 ---
 
 ### 👾 Enemies & Combat
