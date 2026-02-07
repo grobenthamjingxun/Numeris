@@ -123,8 +123,6 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 - Charged staff defeats enemies and grants rewards
 - Enemy death animation and vfx
 
-![Gameplay](Media/GameplayVideo.mp4)
-
 ---
 
 ### ⚡ Power-Ups
