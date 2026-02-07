@@ -1,178 +1,174 @@
-# Numeris
+# 🎮 Numeris
 
-## Table of Contents
+> An immersive VR fantasy game designed to teach mathematics through exploration, combat, and interactive problem-solving.
 
-### 1.  Game Overview
+---
 
-### 2. Installation Guide
+<details>
+<summary><strong>📑 Table of Contents (Click to Expand)</strong></summary>
 
-### 3. System Requirements
+- [Game Overview](#game-overview)
+- [Installation Guide](#installation-guide)
+- [System Requirements](#system-requirements)
+- [Key Controls](#key-controls)
+- [Features](#features)
+- [Asset Credits](#asset-credits)
 
-### 4. Key Controls
+</details>
 
-### 5. Features
-
-### 6. Asset Credits
+---
 
 ## Game Overview
 
-Numeris is a VR math learning game that delivers math learning through an interactive and
-immersive experience. By leveraging VR technology, students are placed directly into a
-fantasy world where learning occurs through action and exploration rather than passive
-consumption.
+**Numeris** is a VR math learning game that delivers education through immersive gameplay rather than passive instruction. Players explore a fantasy world where progress is achieved by solving math challenges and engaging in interactive combat.
 
-The game is designed around simple and familiar game mechanics, such as selecting answers,
-charging a weapon, and defeating enemies, which many students are already exposed to
-through mainstream games. This minimises the learning curve to playing the game, allowing
-students to focus on understanding and applying math concepts instead.
+The game uses familiar mechanics such as selecting answers, charging weapons, and defeating enemies to minimise the learning curve. This allows students to focus on understanding mathematical concepts while enjoying gameplay.
 
-To support learners of varying abilities, Numeris includes optional power-ups that can reduce
-difficulty (e.g., slowing time or removing incorrect answers) without removing the core
-learning challenge. These mechanics provide encouragement and assistance while still
-requiring students to think critically and problem solve.
+To support learners of varying skill levels, Numeris includes optional power-ups that can reduce difficulty while preserving the core educational challenge. These mechanics encourage critical thinking and active problem-solving.
+
+![Lobby](Images/Lobby.jpeg)
+
+---
 
 ## Installation Guide
 
-1.  Download and install Unity from https://unity.com/download
-2.  Download and install GitHub Desktop from https://github.com/apps/desktop
-3.  In GitHub Desktop
-    i.  Go to File -> Clone Repository -> URL
-    ii.  Input the URL https://github.com/CheangWeiCheng/Numeris.git
-    iii. Choose your local path
-    iv. Click Clone.
-4. In Unity Hub
+### Required Software
 
-```
-i.  Select "Open" → "Add project from disk"
-ii.  Navigate to the cloned repository folder
-```
-5.  Ensure these packages are installed:
-    i.  Input System (Window > Package Manager)
-    ii.  Cinemachine (for camera controls)
+- [Unity Hub](https://unity.com/download)
+- [GitHub Desktop](https://github.com/apps/desktop)
+
+### Setup Steps
+
+1. Clone the repository using GitHub Desktop:
+   - File → Clone Repository → URL
+   - Repository URL:
+     ```
+     https://github.com/CheangWeiCheng/Numeris.git
+     ```
+   - Choose a local folder
+   - Click **Clone**
+
+2. Open the project in Unity Hub:
+   - Select **Open → Add project from disk**
+   - Navigate to the cloned project folder
+
+3. Install required Unity packages:
+   - Input System (Window → Package Manager)
+   - Cinemachine
+
+---
 
 ## System Requirements
 
-Platform: Meta 
+**Platform:** Meta VR Devices  
 
-#### Recommended Components
+### Recommended Specifications
 
-#### OS Meta Horizon  - OS
+| Component | Specification |
+|---|---|
+| OS | Meta Horizon OS |
+| Processor | Snapdragon XR2 Gen 2 |
+| CPU | Octa-core Kryo CPU |
+| GPU | Adreno 740 |
+| RAM | 8 GB |
 
-#### Processor  - Snapdragon XR2 Gen 2
-
-#### CPU  - Octa-core Kryo CPU
-
-#### GPU  - Adreno 740
-
-#### RAM  - 8 GB
+---
 
 ## Key Controls
 
-#### Move Right  - Joystick
+| Action | Control |
+|---|---|
+| Move | Joystick |
+| Look | Left Joystick |
+| Jump | B Button |
+| Interact | A Button |
+| Fire Weapon | Trigger |
+| Grab Object | Grip |
 
-#### Look  - Left Joystick
-
-#### Jump  - B
-
-#### Interact  - A
-
-#### Fire Weapon  - Trigger
-
-#### Grab Object  - Grip
-
+---
 
 ## Features
 
-Lobby
+### 🏪 Lobby
 
-At the shop, players can buyhealth potions or power-ups with coins gained from defeating enemies for use in the
-levels to be able to better face tougher enemies
+- Purchase health potions and power-ups using coins earned from enemies
+- Select levels based on math topics:
 
-Players can pick their levels, each with their respective theme/subject:
+| Level | Topic |
+|---|---|
+| The Crypt | Basic Arithmetic |
+| The Great Hall | Geometry, Mass, Volume |
+| The Spire | Fractions & Advanced Problems |
 
-1.  (The Crypt): Addition, Subtraction, Multiplication, Division.
-2.  (The Great Hall): Geometry, Mass, and Volume.
-3.  (The Spire): Fractions and complex problem-solving.
+![Mountains](Images/Mountains.jpeg)
 
-Levels
+---
 
-In each levels there are checkpoints which players can use to enter the next level and progress
+### 🗺️ Levels
 
-To enter the next level, players have to defeat a certain number of enemies to reach the threshold so as to
-Encourage learning in the game
+- Checkpoints allow player progression
+- Enemy defeat thresholds encourage learning engagement
+- Hidden chests contain loot and power-ups
 
-There can also be chests you can find in the levels that you can open with keys to get loot, such as power-ups
+---
 
-Enemies
+### 👾 Enemies & Combat
 
-Encounter enemies patrolling with finite state machines
+- Finite State Machine enemy AI
+- Battles triggered through interaction
+- Math questions determine combat outcomes
+- Floating orbs represent answer choices
+- Correct answers charge the player’s staff
+- Charged staff defeats enemies and grants rewards
 
-Interact with them to enter a battle
+---
 
-A battle system based on primary school math question sets, randomly chosen based on the level
+### ⚡ Power-Ups
 
-Answers are written on orbs that float in front of the player
+| Power-Up | Effect |
+|---|---|
+| Extra-Life | Negate one instance of damage |
+| Skip | Skip an enemy encounter |
+| 50:50 | Remove two incorrect answers |
+| Double-Dip | Allow two answer attempts |
+| Slow Time | Increase answering time |
 
-Pick up the correct answer orb and place it into the staff to charge it
+Collected power-ups are stored in the player inventory and accessed through the UI.
 
-Use your charged staff to kill the enemy to gain points, coins and power-ups
+---
 
-Power-Ups
+### ❓ Question System
 
-Enemies can drop Power-Ups, which can grant advantages in battle
+- Incorrect answers trigger enemy chase mode
+- Captured players lose health
+- Zero health results in respawn at lobby
+- Escaping enemy vision resets enemy patrol behaviour
 
-```
-The Extra-Life Power-Up can allow players to prevent damage one time
-The Skip Power-Up allows the player to skip an enemy
-The 50:50 Power-Up allows players to remove two wrong answers
-Double-Dip allows players to pick two different answers
-Slow Time allows the player to have more time to answer
-```
-Power-Ups upon collection will be added to and can be used from the player's inventory, which can be accessed
-with the UI
-
-Questions
-
-Should the player fail the question, the enemy’s chase state will be enabled, and the enemy will start chasing the
-player
-
-Should the enemy catch the player, they will lose health
-
-If the player loses all their health, they will have to respawn back in the lobby
-
-
-Should the player be able to evade the enemy’s view, the enemy will return to patrolling
+---
 
 ## Asset Credits
 
-Level 1 Trees
+### Environment Assets
 
-https://assetstore.unity.com/packages/3d/environments/lowpoly-environment-nature-free-
-medieval-fantasy-series-
+- Trees:  
+https://assetstore.unity.com/packages/3d/environments/lowpoly-environment-nature-free-medieval-fantasy-series-
 
-Level 1 Terrain
+- Terrain:  
+https://assetstore.unity.com/packages/tools/terrain/procedural-terrain-painter-free-automatic-terrain-texturing-
 
-https://assetstore.unity.com/packages/tools/terrain/procedural-terrain-painter-free-automatic-
-terrain-texturing-
+### Tower Textures
 
-Level 1 Tower Textures
+- Roof: https://www.sharetextures.com/textures/wall/blue-brick-wall-  
+- Wall: https://www.sharetextures.com/textures/wood/wood-parquet-  
+- Wall Middle: https://www.sharetextures.com/textures/concrete/concrete-  
+- Lining: https://www.sharetextures.com/textures/wood/wood-plank-  
 
-Roof - https://www.sharetextures.com/textures/wall/blue-brick-wall-
+### Chest Textures
 
-Wall - https://www.sharetextures.com/textures/wood/wood-parquet-
+- Wood: https://www.sharetextures.com/textures/wood/wood-plank-  
+- Inner: https://www.sharetextures.com/textures/wood/wood-parquet-  
+- Lining: https://www.sharetextures.com/textures/wood/dark_wood_parquet_  
+- Metals: https://www.sharetextures.com/textures/metal/steel
 
-Wall Middle - https://www.sharetextures.com/textures/concrete/concrete-
-
-Lining - https://www.sharetextures.com/textures/wood/wood-plank-
-
-Chest Textures
-
-Wood - https://www.sharetextures.com/textures/wood/wood-plank-
-
-Inner - https://www.sharetextures.com/textures/wood/wood-parquet-
-
-Lining - https://www.sharetextures.com/textures/wood/dark_wood_parquet_
-
-Metals - https://www.sharetextures.com/textures/metal/steel
-
+---
 
