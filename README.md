@@ -83,7 +83,7 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 | Lock On | B / A Button |
 | Open Level Menu | Y Button |
 | Open Inventory | X Button |
-| INteract with UI | Trigger |
+| Interact with UI | Trigger |
 
 ---
 
@@ -97,10 +97,12 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 | Level | Topic |
 |---|---|
 | The Crypt | Basic Arithmetic |
-| The Great Hall | Geometry, Mass, Volume |
+| The Cemetery | Geometry, Mass, Volume |
 | The Spire | Fractions & Advanced Problems |
 
 ![Mountains](Media/Mountains.jpeg)
+
+![Cemetery](Media/Floor2.png)
 
 ---
 
@@ -154,9 +156,13 @@ Collected power-ups are stored in the player inventory and accessed through the 
 
 - Trees:  
 https://assetstore.unity.com/packages/3d/environments/lowpoly-environment-nature-free-medieval-fantasy-series-
+https://assetstore.unity.com/packages/3d/vegetation/trees/european-forests-realistic-trees-229716
 
 - Terrain:  
 https://assetstore.unity.com/packages/tools/terrain/procedural-terrain-painter-free-automatic-terrain-texturing-
+
+- Skybox:
+https://assetstore.unity.com/packages/2d/textures-materials/sky/fantasy-skybox-free-18353
 
 ### Tower Textures
 
@@ -172,5 +178,12 @@ https://assetstore.unity.com/packages/tools/terrain/procedural-terrain-painter-f
 - Lining: https://www.sharetextures.com/textures/wood/dark_wood_parquet_  
 - Metals: https://www.sharetextures.com/textures/metal/steel
 
+### Enemy
+
+- Skeleton: https://assetstore.unity.com/packages/3d/characters/creatures/stylized-free-skeleton-298650
+
+### UI
+
+- Dark brown GUI Kit: https://assetstore.unity.com/packages/2d/gui/dark-brown-gui-kit-201086
 ---
 
