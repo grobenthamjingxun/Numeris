@@ -39,13 +39,15 @@
                 <table class="w-full text-left">
                     <thead>
                         <tr class="border-b border-gray-700">
-                            <th class="py-3 px-4">User ID</th>
-                            <th class="py-3 px-4">Last Active</th>
+                            <th class="py-3 px-4">Username</th>
+                            <th class="py-3 px-4">Email</th>
+                            <th class="py-3 px-4">Coins</th>
+                            <th class="py-3 px-4">Level</th>
                             <th class="py-3 px-4">Status</th>
                         </tr>
                     </thead>
                     <tbody id="userTableBody">
-                        </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -71,11 +73,11 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Reference to your 'users' or 'sessions' path in the database
-        const usersRef = ref(db, 'users'); 
+        // Changed from 'users' to 'players'
+        const playersRef = ref(db, 'players'); 
 
         // Listen for data changes
-        onValue(usersRef, (snapshot) => {
+        onValue(playersRef, (snapshot) => {
             const data = snapshot.val();
             const tableBody = document.getElementById('userTableBody');
             const countDisplay = document.getElementById('userCount');
@@ -83,22 +85,45 @@
             tableBody.innerHTML = ''; // Clear table
             
             if (data) {
-                const users = Object.entries(data);
-                countDisplay.innerText = users.length;
+                const players = Object.entries(data);
+                
+                // Filter only logged-in players
+                const loggedInPlayers = players.filter(([id, details]) => details.isLoggedIn === true);
+                
+                countDisplay.innerText = loggedInPlayers.length;
 
-                users.forEach(([id, details]) => {
-                    const row = `
-                        <tr class="border-b border-gray-800 hover:bg-slate-800 transition">
-                            <td class="py-3 px-4 text-blue-300 font-mono text-sm">${id}</td>
-                            <td class="py-3 px-4 text-gray-300">${details.lastLogin || 'N/A'}</td>
-                            <td class="py-3 px-4"><span class="bg-green-500/10 text-green-500 px-2 py-1 rounded text-xs">Online</span></td>
-                        </tr>
-                    `;
-                    tableBody.innerHTML += row;
-                });
+                if (loggedInPlayers.length > 0) {
+                    loggedInPlayers.forEach(([id, details]) => {
+                        const row = `
+                            <tr class="border-b border-gray-800 hover:bg-slate-800 transition">
+                                <td class="py-3 px-4 text-blue-300 font-semibold">${details.username || 'N/A'}</td>
+                                <td class="py-3 px-4 text-gray-300">${details.email || 'N/A'}</td>
+                                <td class="py-3 px-4 text-yellow-400">${details.coins || 0}</td>
+                                <td class="py-3 px-4 text-purple-400">${details.currentLevel || 0}</td>
+                                <td class="py-3 px-4"><span class="bg-green-500/10 text-green-500 px-2 py-1 rounded text-xs">Online</span></td>
+                            </tr>
+                        `;
+                        tableBody.innerHTML += row;
+                    });
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-500">No players currently logged in.</td></tr>';
+                }
             } else {
                 countDisplay.innerText = "0";
-                tableBody.innerHTML = '<tr><td colspan="3" class="p-4 text-center text-gray-500">No users currently logged in.</td></tr>';
+                tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-500">No players found in database.</td></tr>';
+            }
+        });
+
+        // Connection status monitoring
+        const connectedRef = ref(db, '.info/connected');
+        onValue(connectedRef, (snap) => {
+            const statusEl = document.getElementById('status');
+            if (snap.val() === true) {
+                statusEl.textContent = 'Live Connection';
+                statusEl.className = 'px-3 py-1 rounded-full bg-green-900 text-green-400 text-sm';
+            } else {
+                statusEl.textContent = 'Disconnected';
+                statusEl.className = 'px-3 py-1 rounded-full bg-red-900 text-red-400 text-sm';
             }
         });
     </script>
