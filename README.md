@@ -78,12 +78,12 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 
 | Action | Control |
 |---|---|
-| Move | Joystick |
-| Look | Left Joystick |
-| Jump | B Button |
-| Interact | A Button |
-| Fire Weapon | Trigger |
-| Grab Object | Grip |
+| Move | Left Joystick |
+| Look | Right Joystick |
+| Lock On | B / A Button |
+| Open Level Menu | Y Button |
+| Open Inventory | X Button |
+| INteract with UI | Trigger |
 
 ---
 
@@ -115,11 +115,13 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 ### 👾 Enemies & Combat
 
 - Finite State Machine enemy AI
+- A lock on system to detect and engage specific enemy for battle
 - Battles triggered through interaction
 - Math questions determine combat outcomes
 - Floating orbs represent answer choices
 - Correct answers charge the player’s staff
 - Charged staff defeats enemies and grants rewards
+- Enemy death animation and vfx
 
 ---
 
