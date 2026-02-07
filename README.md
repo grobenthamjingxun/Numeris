@@ -26,7 +26,7 @@ The game uses familiar mechanics such as selecting answers, charging weapons, an
 
 To support learners of varying skill levels, Numeris includes optional power-ups that can reduce difficulty while preserving the core educational challenge. These mechanics encourage critical thinking and active problem-solving.
 
-![Lobby](Images/Lobby.jpeg)
+![Lobby](Media/Lobby.jpeg)
 
 ---
 
@@ -100,7 +100,7 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 | The Great Hall | Geometry, Mass, Volume |
 | The Spire | Fractions & Advanced Problems |
 
-![Mountains](Images/Mountains.jpeg)
+![Mountains](Media/Mountains.jpeg)
 
 ---
 
