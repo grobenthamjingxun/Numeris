@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 3636193341944027517}
   - component: {fileID: 729256332466854465}
   - component: {fileID: 5099846036416667239}
+  - component: {fileID: 8023878071902241873}
   m_Layer: 5
   m_Name: InventoryCanvas
   m_TagString: Untagged
@@ -299,7 +300,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &729256332466854465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,6 +337,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RaycastTriggerInteraction: 1
+--- !u!114 &8023878071902241873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4378514886113270765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d0067d414253b4b856a3386f6f2c7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VRSoftFollowUI
+  vrCamera: {fileID: 0}
+  distance: 2
+  smoothTime: 0.3
+  lockPitch: 1
 --- !u!1 &5555417074274722709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,7 +1053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7758717221920447252, guid: bd5545b52ffba4747be86006e3fde632, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0010964882
+      value: 0.0026237203
       objectReference: {fileID: 0}
     - target: {fileID: 7758717221920447252, guid: bd5545b52ffba4747be86006e3fde632, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

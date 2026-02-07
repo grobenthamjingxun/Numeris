@@ -58,6 +58,10 @@ public class PatrolChaseFSM : MonoBehaviour
 
     private void Start()
     {
+        if (playerHealth == null)
+        {
+            playerHealth = FindFirstObjectByType<PlayerHealth>();
+        }
         loseSqr = loseDistance * loseDistance;
 
         EnsureOnNavMesh();

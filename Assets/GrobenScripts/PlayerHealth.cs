@@ -5,9 +5,8 @@ public class PlayerHealth : MonoBehaviour
 {
     public int currentHealth = 100;
     public TMP_Text healthText;
-    [SerializeField] private GameObject Player;
-    [SerializeField] private GameObject Staff;
     [SerializeField] private SceneChanger sceneChanger;
+    private const string RESPAWN_SCENE = "GrobenLobby";
 
     void Start()
     {
@@ -22,7 +21,7 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth == 0)
         {
             Debug.Log("Player is dead!");
-            sceneChanger.ChangeScene();
+            sceneChanger.ChangeScene(RESPAWN_SCENE);
             currentHealth = 100; // Reset health
             UpdateUI();
         }
