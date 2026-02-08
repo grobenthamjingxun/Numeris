@@ -100,7 +100,7 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 | The Cemetery | Geometry, Mass, Volume |
 | The Spire | Fractions & Advanced Problems |
 
-![Mountains](Media/Mountains.jpeg)
+![Mountains](Media/Mountains.png)
 
 ![Cemetery](Media/Floor2.png)
 
