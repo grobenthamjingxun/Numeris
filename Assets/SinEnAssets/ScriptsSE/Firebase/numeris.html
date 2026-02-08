@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numeris Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }
+        .card { background: #1e293b; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+    </style>
+</head>
+<body class="p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-10 flex justify-between items-center">
+            <h1 class="text-3xl font-bold text-blue-400">Numeris <span class="text-white">Admin</span></h1>
+            <div id="status" class="px-3 py-1 rounded-full bg-green-900 text-green-400 text-sm">Live Connection</div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div class="card">
+                <h3 class="text-gray-400 text-sm uppercase mb-2">Total Logged In</h3>
+                <p id="userCount" class="text-5xl font-extrabold text-white">0</p>
+            </div>
+            <div class="card">
+                <h3 class="text-gray-400 text-sm uppercase mb-2">Server Region</h3>
+                <p class="text-2xl font-semibold text-blue-300">Asia-Southeast</p>
+            </div>
+            <div class="card">
+                <h3 class="text-gray-400 text-sm uppercase mb-2">App Status</h3>
+                <p class="text-2xl font-semibold text-green-400">Healthy</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="text-xl font-bold mb-4">Active Session Logs</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-gray-700">
+                            <th class="py-3 px-4">Username</th>
+                            <th class="py-3 px-4">Email</th>
+                            <th class="py-3 px-4">Coins</th>
+                            <th class="py-3 px-4">Level</th>
+                            <th class="py-3 px-4">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_FAR2wX6v8r0TDxqdMhEEl6hjxwSqnrg",
+            authDomain: "numeris-c8ae4.firebaseapp.com",
+            databaseURL: "https://numeris-c8ae4-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "numeris-c8ae4",
+            storageBucket: "numeris-c8ae4.firebasestorage.app",
+            messagingSenderId: "238531920666",
+            appId: "1:238531920666:web:224c4465112f733ebc62a3",
+            measurementId: "G-0VW0P42F6S"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Changed from 'users' to 'players'
+        const playersRef = ref(db, 'players'); 
+
+        // Listen for data changes
+        onValue(playersRef, (snapshot) => {
+            const data = snapshot.val();
+            const tableBody = document.getElementById('userTableBody');
+            const countDisplay = document.getElementById('userCount');
+            
+            tableBody.innerHTML = ''; // Clear table
+            
+            if (data) {
+                const players = Object.entries(data);
+                
+                // Filter only logged-in players
+                const loggedInPlayers = players.filter(([id, details]) => details.isLoggedIn === true);
+                
+                countDisplay.innerText = loggedInPlayers.length;
+
+                if (loggedInPlayers.length > 0) {
+                    loggedInPlayers.forEach(([id, details]) => {
+                        const row = `
+                            <tr class="border-b border-gray-800 hover:bg-slate-800 transition">
+                                <td class="py-3 px-4 text-blue-300 font-semibold">${details.username || 'N/A'}</td>
+                                <td class="py-3 px-4 text-gray-300">${details.email || 'N/A'}</td>
+                                <td class="py-3 px-4 text-yellow-400">${details.coins || 0}</td>
+                                <td class="py-3 px-4 text-purple-400">${details.currentLevel || 0}</td>
+                                <td class="py-3 px-4"><span class="bg-green-500/10 text-green-500 px-2 py-1 rounded text-xs">Online</span></td>
+                            </tr>
+                        `;
+                        tableBody.innerHTML += row;
+                    });
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-500">No players currently logged in.</td></tr>';
+                }
+            } else {
+                countDisplay.innerText = "0";
+                tableBody.innerHTML = '<tr><td colspan="5" class="p-4 text-center text-gray-500">No players found in database.</td></tr>';
+            }
+        });
+
+        // Connection status monitoring
+        const connectedRef = ref(db, '.info/connected');
+        onValue(connectedRef, (snap) => {
+            const statusEl = document.getElementById('status');
+            if (snap.val() === true) {
+                statusEl.textContent = 'Live Connection';
+                statusEl.className = 'px-3 py-1 rounded-full bg-green-900 text-green-400 text-sm';
+            } else {
+                statusEl.textContent = 'Disconnected';
+                statusEl.className = 'px-3 py-1 rounded-full bg-red-900 text-red-400 text-sm';
+            }
+        });
+    </script>
+</body>
+</html>
