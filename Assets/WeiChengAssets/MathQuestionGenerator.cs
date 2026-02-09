@@ -46,6 +46,18 @@ public class MathQuestionGenerator : MonoBehaviour
     {
         currentSceneName = SceneManager.GetActiveScene().name;
         
+        if (questionText == null)
+        {
+            questionText = GameObject.Find("Question").GetComponent<TMP_Text>();
+        }
+        if (orbSpawner == null)
+        {
+            orbSpawner = GameObject.Find("OrbSpawner").GetComponent<RandomObjectSpawner>();
+        }
+        if (targetSelector == null)
+        {
+            targetSelector = GameObject.Find("XR Origin (XR Rig)").GetComponent<TargetSelector>();
+        }
         // ADDED: Subscribe to target selector events
         if (targetSelector != null)
         {
@@ -288,7 +300,7 @@ public class MathQuestionGenerator : MonoBehaviour
         else
         {
             Debug.LogWarning($"Scene '{sceneName}' not recognized, defaulting to arithmetic");
-            return GenerateFractionQuestion();
+            return GenerateArithmeticQuestion();
         }
     }
     
