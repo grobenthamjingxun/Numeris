@@ -240,6 +240,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8858051749441068820, guid: 4c67ed6c086451b4db54ac4d24b626bb, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 8894993133792773274, guid: 4c67ed6c086451b4db54ac4d24b626bb, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -400,6 +404,8 @@ MonoBehaviour:
   navMeshSampleRadius: 2
   agentWarpSearchRadius: 3
   chaseRepathInterval: 0.15
+  damageOnCatch: 10
+  playerHealth: {fileID: 0}
   currentState: 0
 --- !u!54 &5614129330080852692
 Rigidbody:

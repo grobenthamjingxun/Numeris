@@ -88,6 +88,8 @@ GameObject:
   - component: {fileID: 7063977665125209007}
   - component: {fileID: 8763712295188409176}
   - component: {fileID: 6635953778438671691}
+  - component: {fileID: 2952005611803842911}
+  - component: {fileID: 2022903920584788986}
   m_Layer: 5
   m_Name: LevelCanvas
   m_TagString: Untagged
@@ -163,7 +165,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &8763712295188409176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +202,38 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RaycastTriggerInteraction: 1
+--- !u!114 &2952005611803842911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480576721384939926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8af51e9c83be13a4c9c4731ff241c70d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneChanger
+  gameManagers: {fileID: 0}
+  InventoryCanvas: {fileID: 0}
+  LevelCanvas: {fileID: 0}
+  HeatlthManager: {fileID: 0}
+--- !u!114 &2022903920584788986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480576721384939926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02d0067d414253b4b856a3386f6f2c7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VRSoftFollowUI
+  vrCamera: {fileID: 0}
+  distance: 2
+  smoothTime: 0.3
+  lockPitch: 1
 --- !u!1 &688639714076353212
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +354,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 294903564552515711}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2952005611803842911}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: GrobenLobby
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1018454519083294596
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,7 +848,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6056137015453665857}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2952005611803842911}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Level 1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3050187827620299678
 GameObject:
   m_ObjectHideFlags: 0
@@ -1273,7 +1331,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1385636827437009731}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2952005611803842911}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: WeiChengScene
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4004528312767923283
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,7 +1602,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6531431176711767824}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2952005611803842911}
+        m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: BasicScene_SELevel
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4905819689290506296
 GameObject:
   m_ObjectHideFlags: 0

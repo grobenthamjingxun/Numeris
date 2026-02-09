@@ -288,7 +288,7 @@ public class MathQuestionGenerator : MonoBehaviour
         else
         {
             Debug.LogWarning($"Scene '{sceneName}' not recognized, defaulting to arithmetic");
-            return GenerateArithmeticQuestion();
+            return GenerateFractionQuestion();
         }
     }
     

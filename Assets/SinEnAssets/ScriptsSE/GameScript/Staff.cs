@@ -11,6 +11,14 @@ public class Staff : MonoBehaviour
     // ADDED: Reference to the AnswerDetection script
     public AnswerDetection answerDetection;
     
+    void Start()
+    {
+        if (cam == null)
+        {
+            cam = Camera.main;
+        }
+    }
+    
     public void ShootProjectile()
     {
         // ADDED: Check if correct orb is attached

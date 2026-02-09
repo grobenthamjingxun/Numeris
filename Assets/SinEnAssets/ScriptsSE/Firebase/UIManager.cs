@@ -9,13 +9,13 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject signupCanvas;
     [SerializeField]
-    private GameObject inventoryCanvas;
+    public GameObject inventoryCanvas;
     [SerializeField]
     private GameObject leaderboardCanvas;
     [SerializeField]
     private GameObject shopCanvas;
     [SerializeField]
-    private GameObject levelCanvas;
+    public GameObject levelCanvas;
 
     void Awake()
     {
@@ -35,85 +35,99 @@ public class UIManager : MonoBehaviour
         ShowLogin();
     }
 
+    // Helper method to safely set active
+    private void SetCanvasActive(GameObject canvas, bool active)
+    {
+        if (canvas != null)
+        {
+            canvas.SetActive(active);
+        }
+    }
+
     public void ShowGame()
     {
-        loginCanvas.SetActive(false);
-        signupCanvas.SetActive(false);
-        inventoryCanvas.SetActive(false);
-        leaderboardCanvas.SetActive(false);
-        shopCanvas.SetActive(false);
-        levelCanvas.SetActive(false);
+        SetCanvasActive(loginCanvas, false);
+        SetCanvasActive(signupCanvas, false);
+        SetCanvasActive(inventoryCanvas, false);
+        SetCanvasActive(leaderboardCanvas, false);
+        SetCanvasActive(shopCanvas, false);
+        SetCanvasActive(levelCanvas, false);
     }
+    
     public void ShowLogin()
     {
-        loginCanvas.SetActive(true);
-        signupCanvas.SetActive(false);
-        inventoryCanvas.SetActive(false);
-        leaderboardCanvas.SetActive(false);
-        shopCanvas.SetActive(false);
-        levelCanvas.SetActive(false);
+        SetCanvasActive(loginCanvas, true);
+        SetCanvasActive(signupCanvas, false);
+        SetCanvasActive(inventoryCanvas, false);
+        SetCanvasActive(leaderboardCanvas, false);
+        SetCanvasActive(shopCanvas, false);
+        SetCanvasActive(levelCanvas, false);
     }
+    
     public void ShowSignup()
     {
-        loginCanvas.SetActive(false);
-        signupCanvas.SetActive(true);
-        inventoryCanvas.SetActive(false);
-        leaderboardCanvas.SetActive(false);
-        shopCanvas.SetActive(false);
-        levelCanvas.SetActive(false);
+        SetCanvasActive(loginCanvas, false);
+        SetCanvasActive(signupCanvas, true);
+        SetCanvasActive(inventoryCanvas, false);
+        SetCanvasActive(leaderboardCanvas, false);
+        SetCanvasActive(shopCanvas, false);
+        SetCanvasActive(levelCanvas, false);
     }
+    
     public void ShowInventory()
     {
-        loginCanvas.SetActive(false);
-        signupCanvas.SetActive(false);
-        inventoryCanvas.SetActive(true);
-        leaderboardCanvas.SetActive(false);
-        shopCanvas.SetActive(false);
-        levelCanvas.SetActive(false);
+        SetCanvasActive(loginCanvas, false);
+        SetCanvasActive(signupCanvas, false);
+        SetCanvasActive(inventoryCanvas, true);
+        SetCanvasActive(leaderboardCanvas, false);
+        SetCanvasActive(shopCanvas, false);
+        SetCanvasActive(levelCanvas, false);
     }
+    
     public void ShowLeaderboard()
     {
-        loginCanvas.SetActive(false);
-        signupCanvas.SetActive(false);
-        inventoryCanvas.SetActive(false);
-        leaderboardCanvas.SetActive(true);
-        shopCanvas.SetActive(false);
-        levelCanvas.SetActive(false);
+        SetCanvasActive(loginCanvas, false);
+        SetCanvasActive(signupCanvas, false);
+        SetCanvasActive(inventoryCanvas, false);
+        SetCanvasActive(leaderboardCanvas, true);
+        SetCanvasActive(shopCanvas, false);
+        SetCanvasActive(levelCanvas, false);
     }
+    
     public void ShowLevel()
     {
-        loginCanvas.SetActive(false);
-        signupCanvas.SetActive(false);
-        inventoryCanvas.SetActive(false);
-        leaderboardCanvas.SetActive(false);
-        shopCanvas.SetActive(false);
-        levelCanvas.SetActive(true);
+        SetCanvasActive(loginCanvas, false);
+        SetCanvasActive(signupCanvas, false);
+        SetCanvasActive(inventoryCanvas, false);
+        SetCanvasActive(leaderboardCanvas, false);
+        SetCanvasActive(shopCanvas, false);
+        SetCanvasActive(levelCanvas, true);
     }
 
     public void ShowShop()
     {
-        loginCanvas.SetActive(false);
-        signupCanvas.SetActive(false);
-        inventoryCanvas.SetActive(false);
-        leaderboardCanvas.SetActive(false);
-        shopCanvas.SetActive(true);
-        levelCanvas.SetActive(false);
+        SetCanvasActive(loginCanvas, false);
+        SetCanvasActive(signupCanvas, false);
+        SetCanvasActive(inventoryCanvas, false);
+        SetCanvasActive(leaderboardCanvas, false);
+        SetCanvasActive(shopCanvas, true);
+        SetCanvasActive(levelCanvas, false);
     }
 
     public void CloseInventory()
     {
-        inventoryCanvas.SetActive(false);
+        SetCanvasActive(inventoryCanvas, false);
     }
     public void CloseLeaderboard()
     {
-        leaderboardCanvas.SetActive(false);
+        SetCanvasActive(leaderboardCanvas, false);
     }
     public void CloseShop()
     {
-        shopCanvas.SetActive(false);
+        SetCanvasActive(shopCanvas, false);
     }
     public void CloseLevel()
     {         
-        levelCanvas.SetActive(false);
+        SetCanvasActive(levelCanvas, false);
     }
 }

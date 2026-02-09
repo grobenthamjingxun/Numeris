@@ -26,6 +26,19 @@ public class AnswerDetection : MonoBehaviour
 
     void Start()
     {
+        // Look for unassigned values by name
+        if (feedbackText == null)
+        {
+            feedbackText = GameObject.Find("Test Text").GetComponent<TMP_Text>();
+        }
+        if (questionText == null)
+        {
+            questionText = GameObject.Find("Question").GetComponent<TMP_Text>();
+        }
+        if (targetSelector == null)
+        {
+            targetSelector = GameObject.Find("XR Origin (XR Rig)").GetComponent<TargetSelector>();
+        }
         socketInteractor = GetComponent<XRSocketInteractor>();
         socketInteractor.selectEntered.AddListener(OnSelectEntered);
         socketInteractor.selectExited.AddListener(OnSelectExited); // ADDED

@@ -26,6 +26,7 @@ public class EnemyBehaviour : MonoBehaviour
     void Die()
     {
         Debug.Log($"{gameObject.name} died!");
+        Portal.Instance?.OnEnemyKilled();
         GetCoinsOnDeath();
         if (dissolveController != null)
         {
