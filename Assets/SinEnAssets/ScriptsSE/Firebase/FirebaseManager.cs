@@ -361,10 +361,15 @@ public class FirebaseManager : MonoBehaviour
     {
         if (IsAuthenticated())
         {
-            db.Child("players").Child(CurrentUserId()).Child("isLoggedIn").SetValueAsync(false);
+            db.Child("players").Child(CurrentUserId()).Child("isLoggedIn").SetValueAsync(false)
+                .ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCompleted)
+                    {
+                        Debug.Log("User set to offline");
+                    }
+                });
         }
-        Debug.Log("Close application");
-        Application.Quit();
     }
 
     private void OnApplicationQuit()
