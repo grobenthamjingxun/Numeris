@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 707562141716702924}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.01304, z: 0}
+  m_LocalPosition: {x: 0, y: 0.652, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -114,8 +114,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.020003695, y: 0.0063, z: 0.01}
-  m_Center: {x: 0, y: 0.00101, z: 0}
+  m_Size: {x: 1.000185, y: 0.315, z: 0.5}
+  m_Center: {x: 0, y: 0.0505, z: 0}
 --- !u!54 &4671650717677593848
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -153,7 +153,7 @@ HingeJoint:
   serializedVersion: 3
   m_ConnectedBody: {fileID: 8869000302895034980}
   m_ConnectedArticulationBody: {fileID: 0}
-  m_Anchor: {x: 0, y: -0.002, z: 0.005}
+  m_Anchor: {x: 0, y: -0.1, z: 0.25}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
@@ -338,7 +338,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4862352380765794488}
@@ -374,8 +374,8 @@ Transform:
   m_GameObject: {fileID: 6108826565038461051}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0029, z: -0.0053}
-  m_LocalScale: {x: 0.02, y: 0.0025, z: 0.0005}
+  m_LocalPosition: {x: 0, y: -0.145, z: -0.265}
+  m_LocalScale: {x: 1, y: 0.125, z: 0.025}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3275317373633934102}
@@ -483,7 +483,7 @@ Transform:
   m_GameObject: {fileID: 6528553483867874036}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: -0.05599968, z: -8.26}
+  m_LocalPosition: {x: 0, y: -0.06, z: -8.26}
   m_LocalScale: {x: 80, y: 6.587462, z: 32}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -617,7 +617,6 @@ GameObject:
   - component: {fileID: 3275317373633934102}
   - component: {fileID: 4990757631449848137}
   - component: {fileID: 5955529876440295634}
-  - component: {fileID: 8579309988350752683}
   m_Layer: 0
   m_Name: KeyHole
   m_TagString: Untagged
@@ -698,6 +697,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2189589882368598749}
+        m_TargetAssemblyTypeName: LootBag, Assembly-CSharp
+        m_MethodName: DropLoot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
       m_Calls:
@@ -760,23 +771,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8579309988350752683
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7222907485148305558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14aa839221f149544ace5a266beb4e9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  chestAnimator: {fileID: 0}
-  openTriggerName: Open
-  prefabToSpawn: {fileID: 950242063534117602, guid: e3fdd4676f71aeb408388b43e05dd310, type: 3}
-  spawnPoint: {fileID: 4862352380765794488}
-  chestRootObject: {fileID: 2545912721005875516}
 --- !u!1 &7314425206144736097
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,6 +780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4862352380765794488}
+  - component: {fileID: 2189589882368598749}
   m_Layer: 0
   m_Name: ChestSpawn
   m_TagString: Untagged
@@ -802,9 +797,27 @@ Transform:
   m_GameObject: {fileID: 7314425206144736097}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.005, z: -0.0011999988}
-  m_LocalScale: {x: 0.02, y: 0.02, z: 0.02}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1914077721236649494}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2189589882368598749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7314425206144736097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 394bdfbe907acab44834d258b982d7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LootBag
+  lootList:
+  - {fileID: 11400000, guid: 40411bc27ef33be41826faaafcb321ed, type: 2}
+  - {fileID: 11400000, guid: 11c87a6e666fbe647b28cfec08fa4096, type: 2}
+  - {fileID: 11400000, guid: ff45625471e3cd445a50b0dabdfa6f5e, type: 2}
+  dropHeight: 0
+  spreadRadius: 0

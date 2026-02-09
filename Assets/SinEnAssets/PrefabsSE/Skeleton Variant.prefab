@@ -357,7 +357,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 40411bc27ef33be41826faaafcb321ed, type: 2}
   - {fileID: 11400000, guid: ff45625471e3cd445a50b0dabdfa6f5e, type: 2}
   dropHeight: 1
-  spreadRadius: 2
+  spreadRadius: 0.1
 --- !u!195 &6445949413559655541
 NavMeshAgent:
   m_ObjectHideFlags: 0
