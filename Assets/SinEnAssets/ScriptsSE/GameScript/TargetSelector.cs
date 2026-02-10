@@ -37,10 +37,11 @@ public class TargetSelector : MonoBehaviour
         if (cycleTargetAction.action.WasPressedThisFrame())
         {
             CycleTarget();
+            return;
         }
 
         // Clear target if it's too far or destroyed
-        if (CurrentTarget != null && 
+        if (CurrentTarget != null &&
             (Vector3.Distance(transform.position, CurrentTarget.transform.position) > maxLockOnDistance ||
              CurrentTarget == null || !CurrentTarget.activeSelf))
         {

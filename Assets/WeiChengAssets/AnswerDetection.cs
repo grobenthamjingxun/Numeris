@@ -67,6 +67,7 @@ public class AnswerDetection : MonoBehaviour
         if (selectedObject.CompareTag("CorrectOrb"))
         {
             Debug.Log("Correct answer selected!");
+            AudioManager.Instance.PlayCorrectAnswer();
             feedbackText.text = "Correct!";
             // text disappears after a short delay
             StartCoroutine(HideText(2f));
@@ -85,6 +86,7 @@ public class AnswerDetection : MonoBehaviour
         else if (selectedObject.CompareTag("WrongOrb"))
         {
             Debug.Log("Wrong answer selected.");
+            AudioManager.Instance.PlayWrongAnswer();
             feedbackText.text = "Wrong!";
             // text disappears after a short delay
             StartCoroutine(HideText(2f));

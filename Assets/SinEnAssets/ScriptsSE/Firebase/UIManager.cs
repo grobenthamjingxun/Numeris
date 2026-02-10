@@ -82,6 +82,7 @@ public class UIManager : MonoBehaviour
         SetCanvasActive(leaderboardCanvas, false);
         SetCanvasActive(shopCanvas, false);
         SetCanvasActive(levelCanvas, false);
+        InvenManager.instance.OpenInventoryUI();
     }
     
     public void ShowLeaderboard()

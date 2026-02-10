@@ -41,7 +41,8 @@ public class MathQuestionGenerator : MonoBehaviour
     private List<TMP_Text> orbTextComponents = new List<TMP_Text>();
     private bool hasInitializedOrbTexts = false;
     private bool isQuestionActive = false; // ADDED: Track if question is currently displayed
-    
+    private bool isInitializing = false;
+
     void Start()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
@@ -67,15 +68,21 @@ public class MathQuestionGenerator : MonoBehaviour
             targetSelector.OnTargetLocked += OnTargetLocked;
         }
     }
-    
+
     // ADDED: Public method to trigger question generation when target is locked
-    public void OnTargetLocked(GameObject target) // ADDED: GameObject parameter
+    public void OnTargetLocked(GameObject target)
     {
+        if (isInitializing)
+        {
+            Debug.Log("Already initializing question, ignoring duplicate call");
+            return;
+        }
+
         if (isQuestionActive)
         {
             ClearCurrentQuestion();
         }
-        
+
         if (orbSpawner != null)
         {
             orbSpawner.SpawnObjects();
@@ -86,14 +93,15 @@ public class MathQuestionGenerator : MonoBehaviour
             Debug.LogError("Orb Spawner not assigned in MathQuestionGenerator!");
         }
     }
-    
+
     // ADDED: Coroutine to handle timing
     private IEnumerator InitializeQuestionAfterSpawn()
     {
+        isInitializing = true;
         yield return new WaitForSeconds(questionSpawnDelay);
-        
+
         InitializeOrbTextComponents();
-        
+
         if (hasInitializedOrbTexts && orbTextComponents.Count >= 4)
         {
             GenerateNewQuestion();
@@ -103,28 +111,36 @@ public class MathQuestionGenerator : MonoBehaviour
         {
             Debug.LogWarning("Failed to initialize orb texts for question generation");
         }
+
+        isInitializing = false;
     }
-    
+
     // ADDED: Clear question and orbs
     public void ClearCurrentQuestion()
     {
+        if (isInitializing)
+        {
+            Debug.Log("Cannot clear question while initializing");
+            return;
+        }
+
         if (questionText != null)
         {
             questionText.text = "";
         }
-        
+
         if (orbSpawner != null)
         {
             orbSpawner.ClearSpawnedObjects();
         }
-        
+
         orbTextComponents.Clear();
         hasInitializedOrbTexts = false;
         isQuestionActive = false;
-        
+
         Debug.Log("Question and orbs cleared");
     }
-    
+
     /// <summary>
     /// Call this when orbs are instantiated to find their text components
     /// </summary>

@@ -979,14 +979,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5088835560257570752}
     m_Modifications:
-    - target: {fileID: 4269999240409457314, guid: bd5545b52ffba4747be86006e3fde632, type: 3}
-      propertyPath: m_ChildAlignment
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4269999240409457314, guid: bd5545b52ffba4747be86006e3fde632, type: 3}
-      propertyPath: m_Padding.m_Left
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7758717221920447252, guid: bd5545b52ffba4747be86006e3fde632, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1053,7 +1045,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7758717221920447252, guid: bd5545b52ffba4747be86006e3fde632, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0026237203
+      value: 0.00008925782
       objectReference: {fileID: 0}
     - target: {fileID: 7758717221920447252, guid: bd5545b52ffba4747be86006e3fde632, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1069,7 +1061,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8817654999874169196, guid: bd5545b52ffba4747be86006e3fde632, type: 3}
       propertyPath: m_Name
-      value: Content
+      value: InventoryPanel
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
