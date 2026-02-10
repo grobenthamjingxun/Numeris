@@ -25,11 +25,15 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 2
+  m_InvalidKeywords:
+  - _EMISSION
+  - _METALLICSPECGLOSSMAP
+  - _NORMALMAP
+  - _OCCLUSIONMAP
+  m_LightmapFlags: 6
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
@@ -52,14 +56,14 @@ Material:
     m_Ints: []
     m_Floats:
     - _BottomLine: 0.35
-    - _Metallic: 0.5
+    - _Metallic: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _TopLine: 0.65
     m_Colors:
-    - _BaseColor: {r: 0, g: 0.32559168, b: 2.581132, a: 1}
+    - _BaseColor: {r: 0, g: 0.71069145, b: 4, a: 1}
     - _BottomColor: {r: 17.492048, g: 0, b: 0.108356096, a: 1}
-    - _TopColor: {r: 2.9960783, g: 2.396742, b: 0.6117646, a: 1}
+    - _TopColor: {r: 7.9999995, g: 5.9999995, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

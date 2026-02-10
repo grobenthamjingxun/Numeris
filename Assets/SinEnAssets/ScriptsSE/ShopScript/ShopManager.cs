@@ -124,9 +124,12 @@ public class ShopManager : MonoBehaviour
 
         // Display items
         DisplayShopItems();
+
+        // Sound effect
+        AudioManager.Instance.PlayOpenInventory();
     }
 
-    // NEW METHOD: Find UI elements in the active scene
+    
     private void FindUIReferences()
     {
         Debug.Log("Finding UI references in scene...");
@@ -344,7 +347,7 @@ public class ShopManager : MonoBehaviour
             InvenManager.instance.invenItemList.Add(runtimeItem);
             Debug.Log($"Added new item: {runtimeItem.invenItemName}");
         }
-
+        AudioManager.Instance.PlayAddItem();
         InvenManager.instance.SaveInventoryToFirebase();
     }
 

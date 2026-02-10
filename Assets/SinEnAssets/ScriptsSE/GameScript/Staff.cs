@@ -40,6 +40,7 @@ public class Staff : MonoBehaviour
             destination = ray.GetPoint(1000);
         }
         InstantiateProjectile();
+        AudioManager.Instance.PlayLaserBeam();
     }
     
     void InstantiateProjectile()

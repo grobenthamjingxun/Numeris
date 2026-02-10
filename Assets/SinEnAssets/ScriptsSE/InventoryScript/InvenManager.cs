@@ -27,6 +27,8 @@ public class InvenManager : MonoBehaviour
         }
     }
 
+    #region Item Management
+
     public void AddItem(InventoryItem itemToAdd)
     {
         if (itemToAdd == null)
@@ -35,9 +37,8 @@ public class InvenManager : MonoBehaviour
             return;
         }
 
-        // Find existing item by ID
-        InventoryItem existingItem = invenItemList.Find(item => item.invenId == itemToAdd.invenId);
-
+        InventoryItem existingItem = FindItemById(itemToAdd.invenId);
+        AudioManager.Instance.PlayAddItem();
         if (existingItem != null)
         {
             existingItem.invenQuantity += itemToAdd.invenQuantity;
@@ -45,30 +46,19 @@ public class InvenManager : MonoBehaviour
         }
         else
         {
-            // Create runtime copy to avoid modifying ScriptableObject asset
-            InventoryItem runtimeItem = ScriptableObject.CreateInstance<InventoryItem>();
-            runtimeItem.invenId = itemToAdd.invenId;
-            runtimeItem.invenItemName = itemToAdd.invenItemName;
-            runtimeItem.invenIcon = itemToAdd.invenIcon;
-            runtimeItem.itemTier = itemToAdd.itemTier;
-            runtimeItem.powerUpType = itemToAdd.powerUpType; // CRITICAL: Copy powerUpType
-            runtimeItem.invenQuantity = itemToAdd.invenQuantity;
-
+            InventoryItem runtimeItem = CreateRuntimeItem(itemToAdd, itemToAdd.invenQuantity);
             invenItemList.Add(runtimeItem);
             Debug.Log($"Added new item: {runtimeItem.invenItemName} (ID: {runtimeItem.invenId})");
         }
 
-        // Sync to Firebase and refresh UI
-        DisplayInventory();
-        SaveInventoryToFirebase();
+        RefreshInventory();
     }
 
     public void UseItem(int itemId)
     {
         Debug.Log($"=== UseItem called with ID: {itemId} ===");
 
-        // Find the item BEFORE removing
-        InventoryItem existingItem = invenItemList.Find(item => item.invenId == itemId);
+        InventoryItem existingItem = FindItemById(itemId);
 
         if (existingItem == null)
         {
@@ -79,14 +69,54 @@ public class InvenManager : MonoBehaviour
 
         Debug.Log($"Found item: {existingItem.invenItemName}, Quantity: {existingItem.invenQuantity}, PowerUpType: {existingItem.powerUpType}");
 
-        // Apply item effect BEFORE removing
         ApplyItemEffect(existingItem);
-
-        // Now remove the item
         RemoveItem(itemId, 1);
 
         Debug.Log($"Used item: {existingItem.invenItemName} (ID: {itemId})");
     }
+
+    public void RemoveItem(int itemId, int quantity = 1)
+    {
+        InventoryItem existingItem = FindItemById(itemId);
+
+        if (existingItem == null)
+        {
+            Debug.LogWarning($"Attempted to remove item with ID {itemId} but it wasn't found");
+            return;
+        }
+
+        existingItem.invenQuantity -= quantity;
+        Debug.Log($"Removed {quantity} of {existingItem.invenItemName}. Remaining: {existingItem.invenQuantity}");
+
+        if (existingItem.invenQuantity <= 0)
+        {
+            invenItemList.Remove(existingItem);
+            Debug.Log($"Item {existingItem.invenItemName} completely removed from inventory");
+        }
+
+        RefreshInventory();
+    }
+
+    private InventoryItem FindItemById(int itemId)
+    {
+        return invenItemList.Find(item => item.invenId == itemId);
+    }
+
+    private InventoryItem CreateRuntimeItem(InventoryItem sourceItem, int quantity)
+    {
+        InventoryItem runtimeItem = ScriptableObject.CreateInstance<InventoryItem>();
+        runtimeItem.invenId = sourceItem.invenId;
+        runtimeItem.invenItemName = sourceItem.invenItemName;
+        runtimeItem.invenIcon = sourceItem.invenIcon;
+        runtimeItem.itemTier = sourceItem.itemTier;
+        runtimeItem.powerUpType = sourceItem.powerUpType;
+        runtimeItem.invenQuantity = quantity;
+        return runtimeItem;
+    }
+
+    #endregion
+
+    #region Item Effects
 
     private void ApplyItemEffect(InventoryItem item)
     {
@@ -120,56 +150,27 @@ public class InvenManager : MonoBehaviour
                 Debug.LogWarning($"No power-up assigned for item: {item.invenItemName}");
                 break;
         }
+        AudioManager.Instance.PlayUseItem();
     }
 
-    public void RemoveItem(int itemId, int quantity = 1)
-    {
-        InventoryItem existingItem = invenItemList.Find(item => item.invenId == itemId);
-        if (existingItem != null)
-        {
-            existingItem.invenQuantity -= quantity;
-            Debug.Log($"Removed {quantity} of {existingItem.invenItemName}. Remaining: {existingItem.invenQuantity}");
+    #endregion
 
-            if (existingItem.invenQuantity <= 0)
-            {
-                invenItemList.Remove(existingItem);
-                Debug.Log($"Item {existingItem.invenItemName} completely removed from inventory");
-            }
-
-            // Sync to Firebase and refresh UI
-            DisplayInventory();
-            SaveInventoryToFirebase();
-        }
-        else
-        {
-            Debug.LogWarning($"Attempted to remove item with ID {itemId} but it wasn't found");
-        }
-    }
+    #region UI Management
 
     public void DisplayInventory()
     {
         Debug.Log($"=== DisplayInventory - Total items: {invenItemList.Count} ===");
 
-        // Check if UI references exist
-        if (invenItemContent == null)
+        if (!ValidateUIReferences())
         {
-            Debug.LogWarning("invenItemContent is null - UI may not be loaded yet");
             return;
         }
-
-        if (invenItemPrefab == null)
-        {
-            Debug.LogError("invenItemPrefab is NULL! Assign it in the Inspector.");
-            return;
-        }
-
-        // Clear existing items
+        // Clear Inventory UI
         foreach (Transform child in invenItemContent)
         {
             Destroy(child.gameObject);
         }
-
-        // Instantiate new items
+        // Populate Inventory UI
         foreach (InventoryItem invenItem in invenItemList)
         {
             if (invenItem == null)
@@ -178,7 +179,6 @@ public class InvenManager : MonoBehaviour
                 continue;
             }
 
-            // Instantiate without parent first
             GameObject itemObj = Instantiate(invenItemPrefab);
 
             if (itemObj == null)
@@ -187,14 +187,25 @@ public class InvenManager : MonoBehaviour
                 continue;
             }
 
-            // Set parent AFTER instantiation with worldPositionStays = false
             itemObj.transform.SetParent(invenItemContent, false);
-
-            // Setup the UI
             SetupInventoryItemUI(itemObj, invenItem);
         }
-
         Debug.Log($"Successfully displayed {invenItemList.Count} inventory items");
+    }
+
+    private bool ValidateUIReferences()
+    {
+        if (invenItemContent == null)
+        {
+            Debug.LogWarning("invenItemContent is null - UI may not be loaded yet");
+            return false;
+        }
+        if (invenItemPrefab == null)
+        {
+            Debug.LogError("invenItemPrefab is NULL! Assign it in the Inspector.");
+            return false;
+        }
+        return true;
     }
 
     private void SetupInventoryItemUI(GameObject itemObj, InventoryItem invenItem)
@@ -204,55 +215,47 @@ public class InvenManager : MonoBehaviour
             Debug.LogError("Null reference in SetupInventoryItemUI!");
             return;
         }
-
-        // Find UI components with error checking
-        TextMeshProUGUI invenItemName = FindChildComponent<TextMeshProUGUI>(itemObj.transform, "InvenItemName");
-        Image invenItemImage = FindChildComponent<Image>(itemObj.transform, "InvenImage");
-        TextMeshProUGUI invenItemQuantity = FindChildComponent<TextMeshProUGUI>(itemObj.transform, "InvenItemQuantity");
+        // Setup UI Elements
+        TextMeshProUGUI itemName = FindChildComponent<TextMeshProUGUI>(itemObj.transform, "InvenItemName");
+        Image itemImage = FindChildComponent<Image>(itemObj.transform, "InvenImage");
+        TextMeshProUGUI itemQuantity = FindChildComponent<TextMeshProUGUI>(itemObj.transform, "InvenItemQuantity");
+        if (itemName != null)
+        {
+            itemName.text = invenItem.invenItemName;
+        }
+        if (itemImage != null)
+        {
+            if (invenItem.invenIcon != null)
+            {
+                itemImage.sprite = invenItem.invenIcon;
+            }
+            else
+            {
+                Debug.LogWarning($"Icon is null for item: {invenItem.invenItemName}");
+            }
+        }
+        if (itemQuantity != null)
+        {
+            itemQuantity.text = invenItem.invenQuantity.ToString();
+        }
+        // Setup Use Button
         Button useButton = itemObj.GetComponent<Button>();
-
-        // Set values with null checks
-        if (invenItemName != null)
-        {
-            invenItemName.text = invenItem.invenItemName;
-        }
-
-        if (invenItemImage != null && invenItem.invenIcon != null)
-        {
-            invenItemImage.sprite = invenItem.invenIcon;
-        }
-        else if (invenItemImage != null)
-        {
-            Debug.LogWarning($"Icon is null for item: {invenItem.invenItemName}");
-        }
-
-        if (invenItemQuantity != null)
-        {
-            invenItemQuantity.text = invenItem.invenQuantity.ToString();
-        }
-
-        // Setup button
-        if (useButton != null)
-        {
-            // Capture variables in local scope to avoid closure issues
-            int currentItemId = invenItem.invenId;
-            string currentItemName = invenItem.invenItemName;
-
-            useButton.onClick.RemoveAllListeners();
-            useButton.onClick.AddListener(() => {
-                Debug.Log($"=== USE BUTTON CLICKED - ID: {currentItemId}, Name: {currentItemName} ===");
-                UseItem(currentItemId);
-            });
-
-            Debug.Log($"Button setup complete for {currentItemName} (ID: {currentItemId})");
-        }
-        else
+        if (useButton == null)
         {
             Debug.LogError("Button component not found on InvenItem prefab!");
+            return;
         }
+        int currentItemId = invenItem.invenId;
+        string currentItemName = invenItem.invenItemName;
+        useButton.onClick.RemoveAllListeners();
+        useButton.onClick.AddListener(() => {
+            Debug.Log($"=== USE BUTTON CLICKED - ID: {currentItemId}, Name: {currentItemName} ===");
+            UseItem(currentItemId);
+        });
+        Debug.Log($"Button setup complete for {currentItemName} (ID: {currentItemId})");
     }
 
-    // Helper method to find child components with error reporting
+    // Helper method to find child components
     private T FindChildComponent<T>(Transform parent, string childName) where T : Component
     {
         Transform child = parent.Find(childName);
@@ -278,40 +281,178 @@ public class InvenManager : MonoBehaviour
         Debug.Log("Inventory UI reference set");
     }
 
+    public void OpenInventoryUI()
+    {
+        Debug.Log("Opening inventory - Loading from Firebase...");
+
+        if (TryFindInventoryPanel())
+        {
+            LoadInventoryFromFirebase();
+        }
+        AudioManager.Instance.PlayOpenInventory();
+    }
+
+    private bool TryFindInventoryPanel()
+    {
+        GameObject inventoryPanel = GameObject.Find("InventoryPanel");
+        if (inventoryPanel == null)
+        {
+            Debug.LogWarning("InventoryPanel GameObject not found in scene");
+            return false;
+        }
+        Transform content = inventoryPanel.transform.Find("Content");
+
+        if (content == null)
+        {
+            Debug.LogError("Content child not found in InventoryPanel!");
+            return false;
+        }
+        invenItemContent = content;
+        Debug.Log("Found inventory content panel");
+        return true;
+    }
+
+    #endregion
+
+    #region Firebase Integration
+
     public void SaveInventoryToFirebase()
     {
         Debug.Log("SaveInventoryToFirebase called");
-
         if (FirebaseInventoryManager.Instance == null)
         {
             Debug.LogError("FirebaseInventoryManager.Instance is NULL!");
             return;
         }
+        List<Inventory> inventoryList = ConvertToFirebaseFormat();
+        FirebaseInventoryManager.Instance.SaveInventory(inventoryList,
+            onSuccess: () => Debug.Log("Inventory saved to Firebase successfully"),
+            onError: (error) => Debug.LogError($"Failed to save inventory: {error}")
+        );
+    }
 
+    private List<Inventory> ConvertToFirebaseFormat()
+    {
         List<Inventory> inventoryList = new List<Inventory>();
-
         foreach (InventoryItem item in invenItemList)
         {
             if (item == null) continue;
-
             Collectible collectible = new Collectible(
                 item.invenId.ToString(),
                 item.invenItemName,
                 item.itemTier.ToString(),
                 item.invenQuantity
             );
-
             Inventory inventory = new Inventory(item.invenId.ToString());
             inventory.collectibleDetails = collectible;
-
             inventoryList.Add(inventory);
         }
+        return inventoryList;
+    }
 
-        FirebaseInventoryManager.Instance.SaveInventory(inventoryList,
-            onSuccess: () => Debug.Log("Inventory saved to Firebase successfully"),
-            onError: (error) => Debug.LogError($"Failed to save inventory: {error}")
+    public void LoadInventoryFromFirebase()
+    {
+        Debug.Log("=== LoadInventoryFromFirebase called ===");
+        if (isLoadingFromFirebase)
+        {
+            Debug.LogWarning("Already loading inventory, skipping duplicate call");
+            return;
+        }
+        if (FirebaseInventoryManager.Instance == null)
+        {
+            Debug.LogError("FirebaseInventoryManager.Instance is NULL!");
+            return;
+        }
+        isLoadingFromFirebase = true;
+        FirebaseInventoryManager.Instance.LoadInventory(
+            onSuccess: (inventoryList) => OnInventoryLoadSuccess(inventoryList),
+            onError: (error) => OnInventoryLoadError(error)
         );
     }
+
+    private void OnInventoryLoadSuccess(List<Inventory> inventoryList)
+    {
+        invenItemList.Clear();
+        Debug.Log($"Received {inventoryList.Count} items from Firebase");
+        foreach (Inventory inventory in inventoryList)
+        {
+            if (!ValidateFirebaseInventoryItem(inventory))
+            {
+                continue;
+            }
+            LoadInventoryItemFromFirebase(inventory);
+        }
+        Debug.Log($"Loaded {invenItemList.Count} items from Firebase");
+        DebugInventory();
+        DisplayInventory();
+        isLoadingFromFirebase = false;
+    }
+
+    private void OnInventoryLoadError(string error)
+    {
+        Debug.LogError($"Failed to load inventory: {error}");
+        isLoadingFromFirebase = false;
+    }
+
+    private bool ValidateFirebaseInventoryItem(Inventory inventory)
+    {
+        if (inventory == null || inventory.collectibleDetails == null)
+        {
+            Debug.LogWarning("Null inventory or collectible details, skipping");
+            return false;
+        }
+        return true;
+    }
+
+    private void LoadInventoryItemFromFirebase(Inventory inventory)
+    {
+        Collectible collectible = inventory.collectibleDetails;
+        if (!int.TryParse(collectible.collectibleID, out int itemId))
+        {
+            Debug.LogWarning($"Invalid collectible ID: {collectible.collectibleID}");
+            return;
+        }
+        InventoryItem itemAsset = GetInventoryItemAsset(itemId);
+        if (itemAsset != null)
+        {
+            InventoryItem runtimeItem = CreateRuntimeItem(itemAsset, collectible.quantity);
+            invenItemList.Add(runtimeItem);
+            Debug.Log($"Loaded item: {runtimeItem.invenItemName} (ID: {runtimeItem.invenId}, PowerUp: {runtimeItem.powerUpType})");
+        }
+        else
+        {
+            Debug.LogWarning($"Could not find inventory item asset with ID: {collectible.collectibleID}");
+        }
+    }
+
+    private InventoryItem GetInventoryItemAsset(int itemId)
+    {
+        InventoryItem[] allItems = Resources.LoadAll<InventoryItem>("InventoryItems");
+        if (allItems == null || allItems.Length == 0)
+        {
+            Debug.LogError("No InventoryItems found in Resources/InventoryItems folder!");
+            return null;
+        }
+        foreach (InventoryItem item in allItems)
+        {
+            if (item != null && item.invenId == itemId)
+            {
+                return item;
+            }
+        }
+        Debug.LogWarning($"No InventoryItem found with ID {itemId}. Available IDs: {string.Join(", ", Array.ConvertAll(allItems, i => i.invenId.ToString()))}");
+        return null;
+    }
+
+    private void RefreshInventory()
+    {
+        DisplayInventory();
+        SaveInventoryToFirebase();
+    }
+
+    #endregion
+
+    #region Debug
 
     public void DebugInventory()
     {
@@ -336,136 +477,5 @@ public class InvenManager : MonoBehaviour
         }
         Debug.Log("========================");
     }
-
-    public void OpenInventoryUI()
-    {
-        Debug.Log("Opening inventory - Loading from Firebase...");
-
-        // Try to find inventory panel
-        GameObject inventoryPanel = GameObject.Find("InventoryPanel");
-        if (inventoryPanel != null)
-        {
-            Transform content = inventoryPanel.transform.Find("Content");
-            if (content != null)
-            {
-                invenItemContent = content;
-                Debug.Log("Found inventory content panel");
-            }
-            else
-            {
-                Debug.LogError("Content child not found in InventoryPanel!");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("InventoryPanel GameObject not found in scene");
-        }
-
-        LoadInventoryFromFirebase();
-    }
-
-    public void LoadInventoryFromFirebase()
-    {
-        Debug.Log("=== LoadInventoryFromFirebase called ===");
-
-        if (isLoadingFromFirebase)
-        {
-            Debug.LogWarning("Already loading inventory, skipping duplicate call");
-            return;
-        }
-
-        if (FirebaseInventoryManager.Instance == null)
-        {
-            Debug.LogError("FirebaseInventoryManager.Instance is NULL!");
-            return;
-        }
-
-        isLoadingFromFirebase = true;
-
-        FirebaseInventoryManager.Instance.LoadInventory(
-            onSuccess: (inventoryList) =>
-            {
-                // Clear current inventory
-                invenItemList.Clear();
-
-                Debug.Log($"Received {inventoryList.Count} items from Firebase");
-
-                // Load items from Firebase
-                foreach (Inventory inventory in inventoryList)
-                {
-                    if (inventory == null || inventory.collectibleDetails == null)
-                    {
-                        Debug.LogWarning("Null inventory or collectible details, skipping");
-                        continue;
-                    }
-
-                    Collectible collectible = inventory.collectibleDetails;
-
-                    // Parse item ID
-                    if (!int.TryParse(collectible.collectibleID, out int itemId))
-                    {
-                        Debug.LogWarning($"Invalid collectible ID: {collectible.collectibleID}");
-                        continue;
-                    }
-
-                    // Find the ScriptableObject asset by ID
-                    InventoryItem itemAsset = GetInventoryItemAsset(itemId);
-
-                    if (itemAsset != null)
-                    {
-                        // Create a runtime instance
-                        InventoryItem runtimeItem = ScriptableObject.CreateInstance<InventoryItem>();
-                        runtimeItem.invenId = itemAsset.invenId;
-                        runtimeItem.invenItemName = itemAsset.invenItemName;
-                        runtimeItem.invenIcon = itemAsset.invenIcon;
-                        runtimeItem.itemTier = itemAsset.itemTier;
-                        runtimeItem.powerUpType = itemAsset.powerUpType; // CRITICAL: Copy powerUpType
-                        runtimeItem.invenQuantity = collectible.quantity;
-
-                        invenItemList.Add(runtimeItem);
-                        Debug.Log($"Loaded item: {runtimeItem.invenItemName} (ID: {runtimeItem.invenId}, PowerUp: {runtimeItem.powerUpType})");
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Could not find inventory item asset with ID: {collectible.collectibleID}");
-                    }
-                }
-
-                Debug.Log($"Loaded {invenItemList.Count} items from Firebase");
-                DebugInventory();
-                DisplayInventory();
-
-                isLoadingFromFirebase = false;
-            },
-            onError: (error) =>
-            {
-                Debug.LogError($"Failed to load inventory: {error}");
-                isLoadingFromFirebase = false;
-            }
-        );
-    }
-
-    // Helper method to get ScriptableObject by ID
-    private InventoryItem GetInventoryItemAsset(int itemId)
-    {
-        // Load all InventoryItem assets from Resources folder
-        InventoryItem[] allItems = Resources.LoadAll<InventoryItem>("InventoryItems");
-
-        if (allItems == null || allItems.Length == 0)
-        {
-            Debug.LogError("No InventoryItems found in Resources/InventoryItems folder!");
-            return null;
-        }
-
-        foreach (InventoryItem item in allItems)
-        {
-            if (item != null && item.invenId == itemId)
-            {
-                return item;
-            }
-        }
-
-        Debug.LogWarning($"No InventoryItem found with ID {itemId}. Available IDs: {string.Join(", ", Array.ConvertAll(allItems, i => i.invenId.ToString()))}");
-        return null;
-    }
+    #endregion
 }

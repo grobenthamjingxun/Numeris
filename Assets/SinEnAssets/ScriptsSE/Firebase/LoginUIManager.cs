@@ -79,6 +79,7 @@ public class LoginUIManager : MonoBehaviour
                     FirebaseManager.Instance.LoadCompletePlayerData(
                         onSuccess: (player) =>
                         {
+                            AudioManager.Instance.PlayLoginSuccessful();
                             PlayerManager.Instance.SetPlayerData(player);
                             InvenManager.instance.LoadInventoryFromFirebase();
                             UIManager.Instance.ShowGame();
