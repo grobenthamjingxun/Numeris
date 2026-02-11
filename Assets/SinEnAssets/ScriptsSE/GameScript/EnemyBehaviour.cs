@@ -30,7 +30,10 @@ public class EnemyBehaviour : MonoBehaviour
         GetCoinsOnDeath();
         if (dissolveController != null)
         {
-            lootBag.DropLoot();
+            if (lootBag != null)
+            {
+                lootBag.DropLoot();
+            }
             StartCoroutine(DieWithDissolve());
         }
         else
