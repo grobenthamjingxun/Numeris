@@ -182,6 +182,16 @@ https://assetstore.unity.com/packages/2d/textures-materials/sky/fantasy-skybox-f
 
 - Skeleton: https://assetstore.unity.com/packages/3d/characters/creatures/stylized-free-skeleton-298650
 
+### Audio
+- Login sound effect: https://pixabay.com/users/foxboytails-49447089/
+- Open UI sound effect: https://freesound.org/people/Omiranda14/sounds/790073/
+- Add item sound effect: https://freesound.org/people/IENBA/sounds/698768/
+- Use item sound effect: https://freesound.org/people/Scrampunk/sounds/345299/
+- Correct answer sound effect: https://freesound.org/people/ertfelda/sounds/243701/
+- Wrong answer sound effect: https://freesound.org/people/Bertrof/sounds/131657/
+- Laser beam sound effect: https://freesound.org/people/wcoltd/sounds/440776/
+- Background music: https://pixabay.com/music/solo-classical-instruments-medieval-background-348171/
+
 ### UI
 
 - Dark brown GUI Kit: https://assetstore.unity.com/packages/2d/gui/dark-brown-gui-kit-201086
