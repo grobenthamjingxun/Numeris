@@ -347,7 +347,9 @@ public class ShopManager : MonoBehaviour
             InvenManager.instance.invenItemList.Add(runtimeItem);
             Debug.Log($"Added new item: {runtimeItem.invenItemName}");
         }
+
         AudioManager.Instance.PlayAddItem();
+        InvenManager.instance.DisplayInventory();
         InvenManager.instance.SaveInventoryToFirebase();
     }
 

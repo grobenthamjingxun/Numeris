@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/admin",
+        "destination": "/numeris.html"
+      },
+      {
+        "source": "/teacher",
+        "destination": "/teacher-portal.html"
+      }
+    ]
+  }
+}
