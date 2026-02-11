@@ -15,15 +15,33 @@ public class PowerUpManager : MonoBehaviour
     // ----------------------
     public void UseHealth()
     {
-        PlayerHealth player = Object.FindFirstObjectByType<PlayerHealth>();
-        if (player == null)
+        PlayerHealth playerHealth = Object.FindFirstObjectByType<PlayerHealth>();
+        if (playerHealth == null)
         {
             Debug.LogWarning("PlayerHealth not found!");
             return;
         }
-        player.TryHeal(25); // or use a configurable healAmount
+        playerHealth.TryHeal(25); // or use a configurable healAmount
+        SaveHealthToFirebase(playerHealth.currentHealth);
     }
 
+    private void SaveHealthToFirebase(int health)
+    {
+        // Update PlayerManager's internal value
+        if (PlayerManager.Instance != null)
+        {
+            PlayerManager.Instance.SetHealth(health);
+        }
+
+        // Save to Firebase
+        if (FirebaseManager.Instance != null)
+        {
+            FirebaseManager.Instance.UpdatePlayerField("health", health,
+                onSuccess: () => Debug.Log($"✓ Health saved to Firebase: {health}"),
+                onError: (error) => Debug.LogError($"✗ Failed to save health: {error}")
+            );
+        }
+    }
     // ----------------------
     // 50:50
     // ----------------------
