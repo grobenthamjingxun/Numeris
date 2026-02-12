@@ -7,6 +7,7 @@ public class EnemyBehaviour : MonoBehaviour
     public DissolveController dissolveController;
     public int maxHealth = 1;
     public int currentHealth;
+    public BossKeyDrop bossKeyDrop;
     
     private void Start()
     {
@@ -39,6 +40,10 @@ public class EnemyBehaviour : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+        if (bossKeyDrop != null)
+        {
+            bossKeyDrop.DropKey();
         }
         GameObject[] correctOrbs = GameObject.FindGameObjectsWithTag("CorrectOrb");
         foreach (GameObject correctOrb in correctOrbs)

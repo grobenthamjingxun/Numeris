@@ -31,6 +31,11 @@ public class SceneChanger : MonoBehaviour
         {
             LevelCanvas = GameObject.Find("LevelCanvas").GetComponent<Canvas>();
         }
+        // Integrate Bootstrap scene; if the player starts in it, load GrobenLobby scene
+        if (SceneManager.GetActiveScene().name == "Bootstrap")
+        {
+            ChangeScene("GrobenLobby");
+        }
     }
     public void ChangeScene(string sceneToLoad)
     {
@@ -42,14 +47,5 @@ public class SceneChanger : MonoBehaviour
         DontDestroyOnLoad(LevelCanvas.gameObject);
         // place player at origin in new scene
         Player.transform.position = Vector3.zero;
-        if (sceneToLoad == "GrobenLobby") // the scene with the duplicate managers and player
-        {
-            // destroy the ones in the scene, not the ones being carried over
-            Destroy(GameObject.Find("XR Origin (XR Rig)"));
-            Destroy(GameObject.Find("Canvas"));
-            Destroy(GameObject.Find("Managers"));
-            Destroy(GameObject.Find("InventoryCanvas"));
-            Destroy(GameObject.Find("LevelCanvas"));
-        }
     }
 }
