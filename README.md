@@ -181,6 +181,7 @@ https://assetstore.unity.com/packages/2d/textures-materials/sky/fantasy-skybox-f
 ### Enemy
 
 - Skeleton: https://assetstore.unity.com/packages/3d/characters/creatures/stylized-free-skeleton-298650
+- Minotaur: https://assetstore.unity.com/packages/3d/characters/humanoids/minotaur-62219
 
 ### Audio
 - Login sound effect: https://pixabay.com/users/foxboytails-49447089/
