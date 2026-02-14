@@ -22699,7 +22699,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2695828175314380787}
         m_TargetAssemblyTypeName: Clover, Assembly-CSharp
-        m_MethodName: Congradulations
+        m_MethodName: Congratulations
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

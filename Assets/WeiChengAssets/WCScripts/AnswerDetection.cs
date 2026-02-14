@@ -1,8 +1,11 @@
-/// to be attached to the staff (not the orbs)
-/// there are 4 possible orbs with one correct answer
-/// the orbs each have a tag; the correct orb has the tag "CorrectOrb" whereas the incorrect orbs have the tag "WrongOrb"
-/// when the player slots an orb into the staff, this script will check if it's the correct one
-/// all of the objects are xrgrab interactable objects with the staff having an xr socket interactor component
+/*
+* Author: Cheang Wei Cheng
+* Date: 20/01/2026
+* Description: This script is to be attached to the staff.
+* It handles the logic for detecting when the player places an orb into the staff's socket and determining if it's the correct answer.
+* It also manages feedback to the player, such as displaying "Correct!" or "Wrong!" text and playing particle effects for correct answers.
+* Additionally, if the player selects a wrong answer, it triggers only the currently targeted enemy to start chasing the player.
+*/
 
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -17,13 +20,17 @@ public class AnswerDetection : MonoBehaviour
     [SerializeField] private TMP_Text questionText;
     private XRSocketInteractor socketInteractor;
     
-    // ADDED: Public property to check if correct orb is attached
+    // Public property to check if correct orb is attached
     public bool IsCorrectOrbAttached { get; private set; } = false;
 
-    // ADDED: Target-Specific Chase
     [Header("Target-Specific Chase")]
-    [SerializeField] private TargetSelector targetSelector; // Reference to your target selector
+    [SerializeField] private TargetSelector targetSelector; // Reference to target selector
 
+    /// <summary>
+    /// In Start(), listeners are set up for when an orb is placed into or removed from the staff's socket.
+    /// The script also attempts to auto-assign references for the feedback text, question text, and target selector,
+    /// since these variables are in a different scene from the staff and will not be assigned in the inspector.
+    /// </summary>
     void Start()
     {
         // Look for unassigned values by name
@@ -38,17 +45,6 @@ public class AnswerDetection : MonoBehaviour
         if (targetSelector == null)
         {
             targetSelector = GameObject.Find("XR Origin (XR Rig)").GetComponent<TargetSelector>();
-        }
-        socketInteractor = GetComponent<XRSocketInteractor>();
-        socketInteractor.selectEntered.AddListener(OnSelectEntered);
-        socketInteractor.selectExited.AddListener(OnSelectExited); // ADDED
-        feedbackText.text = "";
-        correctAnswerEffect.Stop();
-        
-        // ADDED: Try to auto-find target selector
-        if (targetSelector == null)
-        {
-            targetSelector = FindFirstObjectByType<TargetSelector>();
             if (targetSelector != null)
             {
                 Debug.Log($"Auto-found TargetSelector: {targetSelector.name}");
@@ -58,8 +54,19 @@ public class AnswerDetection : MonoBehaviour
                 Debug.LogWarning("TargetSelector not found in scene. Targeted enemy chase will not work.");
             }
         }
+        socketInteractor = GetComponent<XRSocketInteractor>();
+        socketInteractor.selectEntered.AddListener(OnSelectEntered);
+        socketInteractor.selectExited.AddListener(OnSelectExited);
+        feedbackText.text = "";
+        correctAnswerEffect.Stop();
     }
 
+    /// <summary>
+    /// When an orb is placed into the staff's socket, this method checks if it's the correct answer by looking at the tag of the selected object.
+    /// If it's correct, it updates the feedback text, plays the correct answer effect, and hides the wrong orbs and question text.
+    /// If it's wrong, it updates the feedback text and triggers only the currently targeted enemy to start chasing the player, without affecting other enemies.
+    /// </summary>
+    /// <param name="args"></param>
     private void OnSelectEntered(SelectEnterEventArgs args)
     {
         GameObject selectedObject = args.interactableObject.transform.gameObject;
@@ -71,7 +78,7 @@ public class AnswerDetection : MonoBehaviour
             feedbackText.text = "Correct!";
             // text disappears after a short delay
             StartCoroutine(HideText(2f));
-            IsCorrectOrbAttached = true; // ADDED
+            IsCorrectOrbAttached = true;
             if (correctAnswerEffect != null)
             {
                 correctAnswerEffect.Play();
@@ -90,21 +97,26 @@ public class AnswerDetection : MonoBehaviour
             feedbackText.text = "Wrong!";
             // text disappears after a short delay
             StartCoroutine(HideText(2f));
-            IsCorrectOrbAttached = false; // ADDED
+            IsCorrectOrbAttached = false;
             
-            // ADDED: Make only the TARGETED enemy chase
+            // Make only the TARGETED enemy chase
             TriggerTargetedEnemyChase();
         }
     }
     
-    // ADDED: Handle orb removal
+    // Handle orb removal
     private void OnSelectExited(SelectExitEventArgs args)
     {
         IsCorrectOrbAttached = false;
         feedbackText.text = "";
     }
 
-    // ADDED: Only chase with currently targeted enemy
+    /// <summary>
+    /// This method is called when the player selects a wrong answer. It checks if there is a currently targeted enemy using the TargetSelector.
+    /// If there is a target, it gets the PatrolChaseFSM component of that enemy and calls the OnInteractionFailed() method to make that specific enemy start chasing the player.
+    /// If there is no target or if the targeted enemy does not have a PatrolChaseFSM component, it logs an error message.
+    /// This ensures that only the currently targeted enemy reacts to the wrong answer, while other enemies remain unaffected.
+    /// </summary>
     private void TriggerTargetedEnemyChase()
     {
         if (targetSelector == null)
@@ -140,7 +152,7 @@ public class AnswerDetection : MonoBehaviour
         }
     }
     
-    // ADDED: Helper method to find player
+    // Helper method to find player
     private Transform FindPlayerTransform()
     {
         // Look for XR player name
@@ -171,6 +183,6 @@ public class AnswerDetection : MonoBehaviour
     private void OnDestroy()
     {
         socketInteractor.selectEntered.RemoveListener(OnSelectEntered);
-        socketInteractor.selectExited.RemoveListener(OnSelectExited); // ADDED
+        socketInteractor.selectExited.RemoveListener(OnSelectExited);
     }
 }

@@ -1,3 +1,11 @@
+/*
+* Author: Cheang Wei Cheng
+* Date: 03/02/2026
+* Description: This script is responsible for generating math questions and answers for the player to solve in each level.
+* It supports different types of questions (arithmetic, geometry, fractions) based on the current scene name.
+* The script also integrates with Firebase to allow for custom question retrieval, while maintaining procedural generation as a fallback.
+*/
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -46,6 +54,11 @@ public class MathQuestionGenerator : MonoBehaviour
     private bool isQuestionActive = false;
     private bool isInitializing = false;
 
+    /// <summary>
+    /// In Start(), the script determines the current scene name to decide the type of questions to generate.
+    /// It also attempts to auto-assign references for the question text, orb spawner, target selector, and Firebase question manager,
+    /// since these variables are in a different scene from the math question generator and will not be assigned in the inspector.
+    /// </summary>
     void Start()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
@@ -78,6 +91,13 @@ public class MathQuestionGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This method is called when a target is locked by the TargetSelector.
+    /// It checks if a question is already active or if the generator is currently initializing.
+    /// If a question is active, it clears the current question before proceeding.
+    /// It then spawns the orbs using the OrbSpawner and starts a coroutine to initialize the question after a short delay to ensure the orbs are spawned and their text components can be found.
+    /// </summary>
+    /// <param name="target"></param>
     public void OnTargetLocked(GameObject target)
     {
         if (isInitializing)
@@ -102,6 +122,11 @@ public class MathQuestionGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This coroutine waits for a short delay after spawning the orbs to allow them to initialize
+    /// It then attempts to find the text components on the orbs and generate a new question.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator InitializeQuestionAfterSpawn()
     {
         isInitializing = true;
@@ -122,6 +147,10 @@ public class MathQuestionGenerator : MonoBehaviour
         isInitializing = false;
     }
 
+    /// <summary>
+    /// This method clears the current question and resets the state of the generator.
+    /// It clears the question text, tells the orb spawner to clear any spawned orbs, and resets the list of orb text components.
+    /// </summary>
     public void ClearCurrentQuestion()
     {
         if (isInitializing)
@@ -297,6 +326,12 @@ public class MathQuestionGenerator : MonoBehaviour
         Debug.Log($"Correct answer: {currentQuestion.correctAnswer}");
     }
 
+    /// <summary>
+    /// This method finds the GameObject with the "CorrectOrb" tag and returns it. If multiple are found, it logs a warning and returns the first one. If none are found, it logs an error and returns null.
+    /// This is used to ensure that the correct answer is assigned to the correct orb, even if the order of orbs in the scene changes.
+    /// The method also includes a fallback search for a text component if the standard GetComponentInChildren<TMP_Text>() does not find it, to account for variations in how the orb prefab might be structured.
+    /// </summary>
+    /// <returns></returns>
     private GameObject FindCorrectOrb()
     {
         GameObject[] correctOrbs = GameObject.FindGameObjectsWithTag(correctOrbTag);
@@ -315,6 +350,12 @@ public class MathQuestionGenerator : MonoBehaviour
         return correctOrbs[0];
     }
 
+    /// <summary>
+    /// Depending on the current scene name, this method generates a question of the appropriate type (arithmetic for level 1, geometry for level 2, fractions for level 3).
+    /// If the scene name is not recognized, it defaults to generating an arithmetic question.
+    /// </summary>
+    /// <param name="sceneName"></param>
+    /// <returns></returns>
     private QuestionData GenerateQuestionForScene(string sceneName)
     {
         QuestionData question = new QuestionData();
@@ -333,6 +374,11 @@ public class MathQuestionGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This method generates a random arithmetic question (addition, subtraction, multiplication, or division) with two numbers.
+    /// It calculates the correct answer and generates three wrong answers that are close to the correct answer.
+    /// </summary>
+    /// <returns></returns>
     private QuestionData GenerateArithmeticQuestion()
     {
         QuestionData question = new QuestionData();
@@ -381,6 +427,11 @@ public class MathQuestionGenerator : MonoBehaviour
         return question;
     }
 
+    /// <summary>
+    /// This method generates a random geometry question (area or perimeter of rectangles/squares/circles, mass of combined boxes, or volume of a box).
+    /// It calculates the correct answer and generates three wrong answers that are close to the correct answer.
+    /// </summary>
+    /// <returns></returns>
     private QuestionData GenerateGeometryQuestion()
     {
         QuestionData question = new QuestionData();
@@ -433,6 +484,11 @@ public class MathQuestionGenerator : MonoBehaviour
         return question;
     }
 
+    /// <summary>
+    /// This method generates a random fraction question (addition, subtraction, or multiplication of fractions) with two fractions.
+    /// It calculates the correct answer and generates three wrong answers that are close to the correct answer.
+    /// </summary>
+    /// <returns></returns>
     private QuestionData GenerateFractionQuestion()
     {
         QuestionData question = new QuestionData();
@@ -494,6 +550,13 @@ public class MathQuestionGenerator : MonoBehaviour
         return question;
     }
 
+    /// <summary>
+    /// This method generates a specified number of wrong answers that are close to the correct answer.
+    /// It randomly decides to add or subtract a small offset from the correct answer to create wrong answers, and ensures that they are not approximately equal to the correct answer or to each other.
+    /// </summary>
+    /// <param name="correctAnswer"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     private float[] GenerateWrongAnswers(float correctAnswer, int count)
     {
         float[] wrongAnswers = new float[count];
@@ -531,6 +594,11 @@ public class MathQuestionGenerator : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// This method shuffles the answers in the provided list using the Fisher-Yates shuffle algorithm.
+    /// It is used to ensure that the correct answer is not always in the same position.
+    /// </summary>
+    /// <param name="answers"></param>
     private void ShuffleAnswers(List<float> answers)
     {
         for (int i = answers.Count - 1; i > 0; i--)
@@ -542,6 +610,12 @@ public class MathQuestionGenerator : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This method formats the answer for display. If the answer is approximately an integer, it formats it without decimal places. Otherwise, it formats it to two decimal places and trims any trailing zeros.
+    /// This ensures that answers are displayed in a clean and readable format on the orbs.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     private string FormatAnswer(float value)
     {
         if (Mathf.Approximately(value, Mathf.Round(value)))

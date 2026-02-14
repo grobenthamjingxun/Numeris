@@ -1,3 +1,11 @@
+/*
+* Author: Cheang Wei Cheng
+* Date: 08/02/2026
+* Description: This script is responsible for making the UI canvas follow the VR camera smoothly, creating a comfortable and intuitive user experience.
+* It calculates the target position in front of the camera and smoothly moves the UI towards that position using Vector3.SmoothDamp, which is ideal for VR to avoid sudden jumps and maintain immersion.
+* It also calculates the target rotation to face the user, and optionally locks the pitch to keep the UI level even if the user tilts their head sideways, which can help prevent motion sickness for some users.
+*/
+
 using UnityEngine;
 
 public class VRSoftFollowUI : MonoBehaviour
@@ -18,6 +26,11 @@ public class VRSoftFollowUI : MonoBehaviour
 
     private Vector3 _velocity = Vector3.zero;
 
+    /// <summary>
+    /// In LateUpdate(), the script calculates the target position in front of the VR camera and smoothly moves the UI towards that position using SmoothDamp.
+    /// It also calculates the target rotation to face the user, and optionally locks the pitch to keep the UI level even if the user tilts their head sideways.
+    /// This creates a comfortable and intuitive user experience by ensuring the UI follows the user's head movements smoothly without sudden jumps, which is important for VR to maintain immersion and prevent motion sickness.
+    /// </summary>
     void LateUpdate()
     {
         if (vrCamera == null) return;
