@@ -8,6 +8,7 @@
 <summary><strong>📑 Table of Contents (Click to Expand)</strong></summary>
 
 - [Game Overview](#game-overview)
+- [Known Bugs](#known-bugs)
 - [Installation Guide](#installation-guide)
 - [System Requirements](#system-requirements)
 - [Key Controls](#key-controls)
@@ -29,6 +30,9 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 ![Lobby](Media/Lobby.jpeg)
 
 ---
+## Known Bugs
+
+
 
 ## Installation Guide
 
