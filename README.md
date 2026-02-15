@@ -30,8 +30,70 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 ![Lobby](Media/Lobby.jpeg)
 
 ---
-## Known Bugs
+## Known Limitations & Bugs
 
+### Critical Issues
+#### Key & Chest Mechanic
+
+- Key insertion requires precise angle - No auto-snap functionality implemented
+- Key frequently disappears during insertion attempt
+- Chest does not visibly open after successful key insertion
+- No collision detection on chest object itself
+- Items disappear without visual/audio feedback
+- Missing UI confirmation when chest is unlocked
+
+#### Control System
+
+- No tutorial level - Players must learn controls through trial and error
+- Object grabbing is difficult - Interaction hitboxes need refinement
+- Initial control confusion - Players require significant guidance to understand basic mechanics
+
+### High Priority Issues
+#### Combat & Enemy Interaction
+
+- Skeleton enemies: Question prompts experience lag
+- Orb spawn failure when player stands too close to defeated skeleton
+- Minotaur boss lacks health bar - No visual indication of damage or progression
+- Missing damage feedback - Unclear when boss takes damage
+- Inconsistent reward drop logic
+
+#### Level Progression & Navigation
+
+- No clear objective UI - Players unsure where to go or what to do next
+- Level selector difficult to use
+- Missing narrative context - No explanation of why player is progressing or what the end goal is
+- No directional indicators to portal or next objective
+
+### Medium Priority Issues
+#### Movement
+
+- Movement speed feels slow
+- No sprint mechanic available
+- Enemy clustering poor - Enemies too spread out, making progression feel sluggish
+
+#### Math Question System
+
+- Question formatting inconsistent - Simplified fractions display causes confusion
+- "Skip" power-up potentially problematic - Allows bypassing learning objective
+- Insufficient feedback for wrong answers
+- Question difficulty inconsistent - Some testers found questions too difficult for primary school level
+
+#### Inventory & Power-Ups
+
+- Health potion confusion when used at full health - No warning or prevention
+- 50:50 power-up works but could use clearer visual feedback
+
+### Minor Issues
+#### UI/UX
+
+- Missing visual prompts for interactive objects
+- No sound effects for key chest interactions
+- Lack of animation for chest opening
+- No confirmation dialogs for important actions
+
+#### Performance
+
+- Occasional lag during question display for skeleton enemies
 
 
 ## Installation Guide
