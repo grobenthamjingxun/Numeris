@@ -146,9 +146,9 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 |---|---|
 | Move | Left Joystick |
 | Look | Right Joystick |
-| Lock On | B / A Button |
+| Lock On | X / A Button |
 | Open Level Menu | Y Button |
-| Open Inventory | X Button |
+| Open Inventory | B Button |
 | Interact with UI | Trigger |
 
 ---
@@ -200,8 +200,6 @@ To support learners of varying skill levels, Numeris includes optional power-ups
 | Extra-Life | Negate one instance of damage |
 | Skip | Skip an enemy encounter |
 | 50:50 | Remove two incorrect answers |
-| Double-Dip | Allow two answer attempts |
-| Slow Time | Increase answering time |
 
 Collected power-ups are stored in the player inventory and accessed through the UI.
 
