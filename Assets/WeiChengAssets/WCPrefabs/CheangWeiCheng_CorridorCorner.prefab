@@ -10589,7 +10589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2398488752438404111}
   m_Layer: 0
-  m_Name: corridorCorner
+  m_Name: CheangWeiCheng_CorridorCorner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

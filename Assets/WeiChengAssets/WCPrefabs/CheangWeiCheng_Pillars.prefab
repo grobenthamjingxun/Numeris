@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8924800741337123566}
   - component: {fileID: 3293257744125093378}
   m_Layer: 0
-  m_Name: pillars
+  m_Name: CheangWeiCheng_Pillars
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -5116,7 +5116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7995781771182256073}
   m_Layer: 0
-  m_Name: corridorWdoor
+  m_Name: CheangWeiCheng_CorridorWdoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

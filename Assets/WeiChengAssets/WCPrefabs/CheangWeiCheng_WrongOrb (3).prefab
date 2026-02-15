@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1253233246307482100}
   - component: {fileID: 7381440389467981046}
   m_Layer: 0
-  m_Name: WrongOrb (3)
+  m_Name: CheangWeiCheng_WrongOrb (3)
   m_TagString: WrongOrb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
